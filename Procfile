@@ -1,0 +1,1 @@
+web: python photo_editor/manage.py collectstatic --noinput --settings=settings.staging --verbosity 0; gunicorn photo_editor.wsgi --pythonpath=photo_editor --log-file -
