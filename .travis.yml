@@ -20,15 +20,15 @@ after_success:
 deploy:
   provider: heroku
   api_key:
-    secure: KmYdDlsoUz7tci0V3TprxBNLz92Cl2C3AENDkhDOLwv5J/8OWjHS/OKCkPC2Hu9YFhqUeC2MG8n4EvW9plGFU3d+Rdw2KWgchVMxdnAf6y2Q52XZiAB4waFB4fNFmHI/K5FUhOpeRuS69YZ6ozV6Mo8XUPllLE6MexFDoQ3bGuZjT7TUqyk74+9tnpp7Fb9nVttXtFsyEUOGPLsX/XyKhAwOukOqyy1dIE5lOFp7Ds2fnBHKCX21e2jfHCqTpBsIZY+uVy+eicFKQLNakMRb3dwytuiLYq7Eyta/99DrOATAGhYrkYdAt4eem1ngt4R4goVtc4viSNbRxNlVlQb5ykU75hxL3/W5XtRkTiUlOuz1tfufA44mxv62BzwQngd5mOULq9b/eSBR7E5nWQIEIy3u2JLG59ecQ6mWpmKyN0bGjdgemBdMaZBlss/eF7/7pFdJ5AcMfYPgltfu67CMdtuM1NFhEb/vncBgejV5r2tCCpg6hwTEBVg+a4kCK+M4S23cMmQzDXGHosdxLaFsUgp0xIbVgod3XGct9LkJ2YUbhRW+yVwNZNukULjDdOAjG5F719RyIPkGBWvruQBnyOkav1cklJdAsz71Joet/W3ziqCCcQPldmA3u7CCavCKUs0tnGYQhbFLf/V6Azwd157B4v5fVfy5FLK9W7adSds=
+    secure: kmtxZ9DleOMWvz5iXDxhzP+W1hY8DQvbJAb3kneEJzzillRt1WLg4Sx88Wl+JgGntamAiKegiYPjjYkIlojqj5ScOwd5jM0DmaRaZJsVFUV26SBpe5RLR4K5xZtwGUsCxk42o48XRwVqCAfw48gy+sZTNLcYX7QTvmueyJfB9n4HfzEdemXRd/lZnKHhTKvsjPG1qr0DesWPIi5IETt330ImpEkD08fnPfSX1d0CdpC6xCqEt3D7drheRpLa5k6KU2Yc/nphPjDNaMxr7K5e2E7EAi/IZ99hOWyjufJti/P2tpBT7wkPea9210+5IFmTuOgobBIJs8B9riAFZjLIBAWR0+WZiOzo4HoKq/TFk+TjcQIkADoi5nHoLsnOnl44VHtbaFP8ZXL+bk3amnNIZ15l23697GRO65waEf4plj0TfKDbuCsPM2ycmindBJMmx9uajL0BkR3DlrK7x5t2KpZ8ClthRPfR0jqcI2kTxch/VTXrpf23ii1FIeyO+4K1QYKIBZkN7Cq8P0GG/O4RkM10yxgiyE4aciomZTCa3A0lefpR1Q5kyL4Tg8P+IgYKq7PcwVha9LSX+BylopMx1BqUbfe44O50QKvEfs64cy0d4xg/DY3XYJmTNM0uffSWfpc8c0IIdLfPRU4NzSnQH9R1sPfsSHfpqYv0hS8MneI=
   app:
     develop: photo-editr
   run:
-    - "export DJANGO_SETTINGS_MODULE=settings.staging"
-    - "python photo-editor/manage.py collectstatic --noinput"
-    - "python photo-editor/manage.py makemigrations"
-    - "python photo-editor/manage.py migrate auth"
-    - "python photo-editor/manage.py migrate"
-    - "python photo-editor/manage.py syncdb --noinput"
+  - export DJANGO_SETTINGS_MODULE=settings.staging
+  - python photo-editor/manage.py collectstatic --noinput
+  - python photo-editor/manage.py makemigrations
+  - python photo-editor/manage.py migrate auth
+  - python photo-editor/manage.py migrate
+  - python photo-editor/manage.py syncdb --noinput
 after_deploy:
-  - "heroku ps:scale web=1 --app photo-editr"
+- heroku ps:scale web=1 --app photo-editr
