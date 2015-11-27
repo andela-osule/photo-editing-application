@@ -1,0 +1,34 @@
+language: python
+python:
+- '2.7'
+env:
+  global:
+  - DJANGO_SETTINGS_MODULE='settings.testing'
+install:
+- pip install -r requirements/testing.txt
+- pip install python-coveralls
+- pip install coverage
+- npm install bower
+script:
+- python photo-editor/manage.py bower install
+- python photo-editor/manage.py collectstatic --noinput
+- python photo-editor/manage.py makemigrations
+- python photo-editor/manage.py migrate
+- coverage run --source photo-editor/app photo-editor/manage.py test
+after_success:
+- coveralls
+deploy:
+  provider: heroku
+  api_key:
+    secure: KmYdDlsoUz7tci0V3TprxBNLz92Cl2C3AENDkhDOLwv5J/8OWjHS/OKCkPC2Hu9YFhqUeC2MG8n4EvW9plGFU3d+Rdw2KWgchVMxdnAf6y2Q52XZiAB4waFB4fNFmHI/K5FUhOpeRuS69YZ6ozV6Mo8XUPllLE6MexFDoQ3bGuZjT7TUqyk74+9tnpp7Fb9nVttXtFsyEUOGPLsX/XyKhAwOukOqyy1dIE5lOFp7Ds2fnBHKCX21e2jfHCqTpBsIZY+uVy+eicFKQLNakMRb3dwytuiLYq7Eyta/99DrOATAGhYrkYdAt4eem1ngt4R4goVtc4viSNbRxNlVlQb5ykU75hxL3/W5XtRkTiUlOuz1tfufA44mxv62BzwQngd5mOULq9b/eSBR7E5nWQIEIy3u2JLG59ecQ6mWpmKyN0bGjdgemBdMaZBlss/eF7/7pFdJ5AcMfYPgltfu67CMdtuM1NFhEb/vncBgejV5r2tCCpg6hwTEBVg+a4kCK+M4S23cMmQzDXGHosdxLaFsUgp0xIbVgod3XGct9LkJ2YUbhRW+yVwNZNukULjDdOAjG5F719RyIPkGBWvruQBnyOkav1cklJdAsz71Joet/W3ziqCCcQPldmA3u7CCavCKUs0tnGYQhbFLf/V6Azwd157B4v5fVfy5FLK9W7adSds=
+  app:
+    develop: photo-editr
+  run:
+    - "export DJANGO_SETTINGS_MODULE=settings.staging"
+    - "python photo-editor/manage.py collectstatic --noinput"
+    - "python photo-editor/manage.py makemigrations"
+    - "python photo-editor/manage.py migrate auth"
+    - "python photo-editor/manage.py migrate"
+    - "python photo-editor/manage.py syncdb --noinput"
+after_deploy:
+  - "heroku ps:scale web=1 --app photo-editr"
