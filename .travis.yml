@@ -10,11 +10,11 @@ install:
 - pip install coverage
 - npm install bower
 script:
-- python photo-editor/manage.py bower install
-- python photo-editor/manage.py collectstatic --noinput
-- python photo-editor/manage.py makemigrations
-- python photo-editor/manage.py migrate
-- coverage run --source photo-editor/app photo-editor/manage.py test
+- python photo_editor/manage.py bower install
+- python photo_editor/manage.py collectstatic --noinput
+- python photo_editor/manage.py makemigrations
+- python photo_editor/manage.py migrate
+- coverage run --source photo_editor/app photo_editor/manage.py test
 after_success:
 - coveralls
 deploy:
@@ -25,10 +25,10 @@ deploy:
     develop: photo-editr
   run:
   - export DJANGO_SETTINGS_MODULE=settings.staging
-  - python photo-editor/manage.py collectstatic --noinput
-  - python photo-editor/manage.py makemigrations
-  - python photo-editor/manage.py migrate auth
-  - python photo-editor/manage.py migrate
-  - python photo-editor/manage.py syncdb --noinput
+  - python photo_editor/manage.py collectstatic --noinput
+  - python photo_editor/manage.py makemigrations
+  - python photo_editor/manage.py migrate auth
+  - python photo_editor/manage.py migrate
+  - python photo_editor/manage.py syncdb --noinput
 after_deploy:
 - heroku ps:scale web=1 --app photo-editr
