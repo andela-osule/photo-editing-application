@@ -1,0 +1,6 @@
+{
+  "directory": "./photo_editor/static/bower_components",
+  "analytics": false,
+  "timeout": 120000,
+  "interactive": false
+}
