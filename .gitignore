@@ -58,3 +58,12 @@ target/
 
 # Environment file
 .env.yml
+
+# Eclipse IDE
+.project
+.pydevproject
+.settings/
+
+# DataStore
+db.sqlite3
+
