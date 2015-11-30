@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sitemap>
+	<title><![CDATA[sitemap]]></title>
+	<version>1.0</version>
+	<link>http://slickplan.com/xduicgii</link>
+	<pubDate>Mon, 30 Nov 2015 20:29:01 +0000</pubDate>
+	<section id="svgmainsection">
+		<options>
+			<template><![CDATA[horizontal]]></template>
+			<design><![CDATA[flat]]></design>
+			<color_scheme><![CDATA[default]]></color_scheme>
+			<text_shadow><![CDATA[false]]></text_shadow>
+			<id><![CDATA[svgmainsection]]></id>
+		</options>
+		<cells>
+			<cell id="svghnx6n9qy0b70z6tm">
+				<level><![CDATA[home]]></level>
+				<text><![CDATA[Home]]></text>
+				<order><![CDATA[1]]></order>
+			</cell>
+			<cell id="svgr2c3w2sii41cistx">
+				<level><![CDATA[1]]></level>
+				<text><![CDATA[Application Panel]]></text>
+				<order><![CDATA[1000]]></order>
+			</cell>
+		</cells>
+	</section>
+</sitemap>
