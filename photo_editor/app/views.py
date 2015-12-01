@@ -39,4 +39,7 @@ class AppView(View):
     """
 
     def get(self, request):
+        if not request.user.is_authenticated():
+            return redirect(reverse('app.auth.login'))
+        
         return render(request, 'app/index.html')
