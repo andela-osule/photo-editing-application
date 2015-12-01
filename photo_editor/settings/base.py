@@ -34,18 +34,19 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'app.middleware.SocialBinderMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'photo_editor.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -58,7 +59,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'photo_editor.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 
 # Database
@@ -111,3 +112,11 @@ BOWER_INSTALLED_APPS = (
     'bootstrap',
     'fontawesome',
 )
+
+# Facebook credentials
+FB_APP_ID = os.getenv('FB_APP_ID')
+FB_APP_NAME = os.getenv('FB_APP_NAME')
+FB_APP_SECRET = os.getenv('FB_APP_SECRET')
+FB_SCOPE = ('email', 'public_profile', 'publish_actions',)
+
+AUTH_USER_MODEL = 'app.SocialUser'
