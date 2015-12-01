@@ -19,5 +19,8 @@ class AppTestCase(TestCase):
         """Test that humans.txt file can be accessed"""
         response = self.client.get('/humans.txt')
         self.assertEqual(response.status_code, 200)
-
     
+    def test_guest_can_access_login_page(self):
+        """Test that guest can access login page"""
+        response = self.client.get(reverse('app.auth.login'))
+        self.assertEqual(response.status_code, 200)
