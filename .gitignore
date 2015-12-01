@@ -67,3 +67,8 @@ target/
 # DataStore
 db.sqlite3
 
+# Bower components
+bower_components
+
+# Django migrations
+migrations
