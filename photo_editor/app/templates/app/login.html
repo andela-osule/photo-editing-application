@@ -1,0 +1,76 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en" xmlns:fb="http://ogp.me/ns/fb#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Photo Editr | Login</title>
+        <meta name="description" content="Django Powered Photo Editing Application">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="github.com/andela/andela-osule">
+        <meta property="fb:app_id" content="{{ app_id }}" />
+
+        <link rel="apple-touch-icon" href="{% static 'images/logo.ico' %}">
+
+        <link rel="stylesheet" href="{% static 'css/normalize.min.css' %}">
+        <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
+        {% block app_css %} {% endblock %}
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <script src="{% static 'js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-push-4 col-sm-4">
+                    <div class="posit-relative">
+	                    <div class="login-wrapper"> <!-- Login wrapper starts here -->            
+		                    <h1 class="appname text-center">Photo Editr</h1>
+		                    <div class="tagline text-center">A 21st century photo editor for the inter-web {{sessionitems}}</div>
+		                    <div class="feature-story">
+		                      <ul>
+		                          <li><span class="fa fa-upload"></span>Upload images
+		                          <li><span class="fa fa-pencil-square-o"></span>Make nifty image effects
+		                          <li><span class="fa fa-paper-plane-o"></span>Share with your friends on Facebook
+		                      </ul>
+		                    </div>
+		                    
+		                    <div class="login-btn" data-scope="{{ allow_perms }}">
+		                       <span class="fa fa-facebook"></span>
+		                        <span class="login-text">
+		                            Login with Facebook to get started.
+		                        </span>
+		                    </div>
+		                </div> <!-- Login wrapper ends here -->
+		            </div>
+                </div>
+            </div>
+            
+
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="/static/bower_components/jquery/dist/jquery.min.js"><\/script>')</script>
+        <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/plugins.js' %}"></script>
+        <script>
+	            window.fbAsyncInit = function() {
+	                FB.init({
+	                    appId      : '{{ app_id }}',
+	                    status     : true,
+	                    cookie     : true,
+	                    xfbml      : true
+	                });
+	                
+	                FB.Event.subscribe('auth.login', function(response) {
+	                    window.location = window.location;
+	                });
+	            }
+        </script>
+        <script src="{% static 'js/main.js' %}"></script>
+
+    </body>
+</html>
