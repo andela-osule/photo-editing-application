@@ -1,0 +1,84 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,300,200);
+
+body {
+    font-size: 16px;
+    background-color: #E6E6E6;    
+}
+
+
+.tagline {
+	border-bottom: 1px solid #E6E6E6;
+	color: #A1A1A1;
+	font-size: 12px;
+	padding: 10px 0 15px;
+}
+
+.posit-relative{
+	position: relative;
+	min-height: 300px;
+}
+
+.login-wrapper {
+	background-color: #FFFFFF;
+	padding: 35px;
+    height: 380px;
+    position: absolute;
+    top: 50%;
+    box-shadow: 1px 1px 0 #E8E8E8;
+}
+
+.login-btn:hover {
+	cursor: pointer;
+}
+
+.login-btn {
+    background-color: #4550B3;
+    padding: 2px;
+    margin-top: 50px;
+}
+
+.feature-story {
+    margin: 15px 0 10px;	
+    font-style: italic;
+    font-size: 0.75em;
+}
+
+.feature-story ul {
+	list-style: none;
+	text-indent: 0px;
+	margin-left: 0px;
+	font-weight: 200;
+    padding-left: 25px;
+}
+
+.feature-story ul span {
+	padding-right: 4px;
+}
+
+.login-text, .fa-facebook {
+	color: #FFFFFF;
+	font-size: 12px;
+}
+
+.fa-facebook{
+	padding: 2px;
+	font-size: 1.6em;
+	margin-left: 15px;
+}
+
+.fa-facebook:after{
+	border-left: 1px solid #5A64B9;
+	content: '';
+	margin-left: 15px;
+	height: 40px;
+	vertical-align: middle;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.login-text {
+	margin: 0 20px;
+	width: 200px;
+	vertical-align: middle;
+	font-weight: 500;
+}
