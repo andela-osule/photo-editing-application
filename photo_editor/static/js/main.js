@@ -55,9 +55,9 @@ var showUploadWnd = function() {
 
 var verifyFileSelected = function() {
     var fakeFilePath = $(this).val();
-    var pathSplit = fakeFilePath.split('.');
-    var fileExtension = pathSplit[pathSplit.length - 1]
     var allowedFileTypes =  ['png', 'jpg'];
+    var pathSplit = fakeFilePath.split('.');
+    var fileExtension = pathSplit[pathSplit.length - 1];
     /*
     |--------------------------------------------------
     | Check if file extension is right then submit
