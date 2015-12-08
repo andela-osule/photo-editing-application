@@ -72,3 +72,7 @@ bower_components
 
 # Django migrations
 migrations
+
+# Mac OS X
+.DS_Store
+
