@@ -4,27 +4,25 @@ body {
     font-size: 16px;
     background-color: #E6E6E6;    
 }
-
-
-.tagline {
-	border-bottom: 1px solid #E6E6E6;
-	color: #A1A1A1;
-	font-size: 12px;
-	padding: 10px 0 15px;
-}
-
-.posit-relative{
-	position: relative;
-	min-height: 300px;
-}
-
+/*
+|-------------------------------------------------------
+| Login Template
+|-------------------------------------------------------
+*/
 .login-wrapper {
-	background-color: #FFFFFF;
-	padding: 35px;
+    top: 50%;
+    padding: 35px;
     height: 380px;
     position: absolute;
-    top: 50%;
+    background-color: #FFFFFF;
     box-shadow: 1px 1px 0 #E8E8E8;
+}
+
+.tagline {
+    color: #A1A1A1;
+    font-size: 12px;
+    padding: 10px 0 15px;
+    border-bottom: 1px solid #E6E6E6;
 }
 
 .login-btn:hover {
@@ -32,15 +30,43 @@ body {
 }
 
 .login-btn {
-    background-color: #4550B3;
     padding: 2px;
     margin-top: 50px;
+    background-color: #4550B3;
+}
+
+.fa-facebook{
+    padding: 2px;
+    font-size: 1.6em;
+    margin-left: 15px;
+}
+
+.fa-facebook:after{
+    content: '';
+    height: 40px;
+    margin-left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    vertical-align: middle;
+    border-left: 1px solid #5A64B9;
+}
+
+.login-text {
+    margin: 0 20px;
+    width: 200px;
+    vertical-align: middle;
+    font-weight: 500;
+}
+
+.posit-relative{
+    position: relative;
+    min-height: 300px;
 }
 
 .feature-story {
-    margin: 15px 0 10px;	
-    font-style: italic;
     font-size: 0.75em;
+    font-style: italic;
+    margin: 15px 0 10px;
 }
 
 .feature-story ul {
@@ -59,26 +85,169 @@ body {
 	color: #FFFFFF;
 	font-size: 12px;
 }
-
-.fa-facebook{
-	padding: 2px;
-	font-size: 1.6em;
-	margin-left: 15px;
+/*
+|-------------------------------------------------------
+| Fonts
+|-------------------------------------------------------
+*/
+.text-tiny {
+    font-size: 12px;
 }
 
-.fa-facebook:after{
-	border-left: 1px solid #5A64B9;
+.text-small {
+    font-size: 0.75em;
+}
+/*
+|-------------------------------------------------------
+| Layouts
+|-------------------------------------------------------
+*/
+.pane-top {
+    padding-top: 15px;
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.pane-top h1 {
+    margin-top: 10px;
+    font-size: 1.35em;  
+}
+
+.relative {
+    position: relative;
+}
+
+.baseline {
+    top: 10px;
+    position: absolute;
+}
+
+.zero-padding {
+    padding: 0px;
+}
+/*
+|-------------------------------------------------------
+| Profile bar
+|-------------------------------------------------------
+*/
+.profile-box img {
+    margin-right: 15px; 	
+}
+/*
+|-------------------------------------------------------
+| Backgrounds
+|-------------------------------------------------------
+*/
+.bg-white {
+	background: #FFFFFF;
+}
+/*
+|-------------------------------------------------------
+| Image rack
+|-------------------------------------------------------
+*/
+.img-rack-wrapper {
+	padding: 0px 15px 20px;
+}
+
+.img-rack {
+    min-height: 450px; 
+}
+/*
+|-------------------------------------------------------
+| Form Button
+|-------------------------------------------------------
+*/
+.btn, .btn-primary {
+	border-radius: 0;
+	background: #2692BE;
+}
+
+.btn-primary {
+    padding-left: 35px;
+    padding-right: 35px;
+}
+
+.btn-tool {
 	content: '';
-	margin-left: 15px;
-	height: 40px;
-	vertical-align: middle;
-	display: inline-block;
-	vertical-align: middle;
+    padding: 10px;
+    margin-right: 5px;
+    background: #FFFFFF;
 }
 
-.login-text {
-	margin: 0 20px;
-	width: 200px;
-	vertical-align: middle;
-	font-weight: 500;
+.btn-tool:hover {
+    box-shadow: 0 0 1px 1px #D3D3D3;
+}
+/*
+|-------------------------------------------------------
+| Application 
+|-------------------------------------------------------
+*/
+.app.container {
+    margin: 5% auto;
+    border: 1px solid #D8D8D8;
+    box-shadow: 0 0 1px 1px #D8D8D8;
+}
+
+.img-editing-pane {
+    padding: 20px 80px 50px 80px;	
+}
+
+.img-editing-canvas {
+	padding-top: 10px;
+}
+
+.img-editing-canvas > div {
+	min-height: 300px;
+	border: 1px solid #D8D8D8;
+	box-shadow: 0 0 1px 1px #D8D8D8;
+}
+
+.img-fx {
+	padding-top: 20px;
+}
+
+.img-fx > div {
+	min-height: 80px;
+}
+
+.img-circle {
+	box-shadow: 0 0 1px 1px #F3F3F3;
+}
+
+.img-bottom-padding {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.img-item:hover {
+    background-color: #2692BE;
+}
+
+.img-item:hover .img-title, .img-item:hover .text-tiny {
+    color: #FFFFFF;
+}
+
+.img-title {
+    font-weight: 900;
+}
+/*
+|-------------------------------------------------------
+| Alerts
+|-------------------------------------------------------
+*/
+.alert {
+    padding: 8px;
+    margin-bottom: 0px;
+}
+/*
+|-------------------------------------------------------
+| Selections
+|-------------------------------------------------------
+*/
+.selected {
+    background-color: #2692BE;
+}
+
+.selected .img-title, .selected .text-tiny {
+    color: #FFFFFF;
 }
