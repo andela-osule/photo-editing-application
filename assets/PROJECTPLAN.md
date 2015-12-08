@@ -28,25 +28,25 @@ In lieu of the above listed requirements, the following technologies shall be ex
 ## Tasks and Deliverables
 This section makes a projection about the time duration for tasks focused on a **technical implementation** of the specified requirements of this project.
 
-| |Points|
-|-|-|
-|Bootstrap App|1|
-|Setup Continuous Integration|1|
-|Design sitemap|1|
-|Tests for status of `GET` requests |2|
-|Mockup replication|2|
-|Test Facebook Authentication|2|
-|Facebook Authentication|2|
-|Setup Cloudinary Integration|1|
-|Test Cloudinary Upload and status of `POST` requests|2|
-|Implement upload feature|2|
-|Implement Celery background runner JS|3|
-|Test routes for photo filters|2|
-|Implement photo filters|3|
-|Test routes for photo effects|2|
-|Implement photo effects|3|
-|Test photo sharing on Facebook|2|
-|Implement photo sharing on Facebook|2|
+| Tasks                                                    | Points |
+| :--------------------------------------------------------| -----: |
+| Bootstrap App                                            |      1 |
+| Setup Continuous Integration                             |      1 |
+| Design sitemap                                           |      1 |
+| Tests for status of `GET` requests                       |      2 |
+| Mockup replication                                       |      2 |
+| Test Facebook Authentication                             |      2 |
+| Facebook Authentication                                  |      2 |
+| Setup Cloudinary Integration                             |      1 |
+| Test Cloudinary Upload and status of `POST` requests     |      2 |
+| Implement upload feature                                 |      2 |
+| Implement Celery background runner JS                    |      3 |
+| Test routes for photo filters                            |      2 |
+| Implement photo filters                                  |      3 |
+| Test routes for photo effects                            |      2 |
+| Implement photo effects                                  |      3 |
+| Test photo sharing on Facebook                           |      2 |
+| Implement photo sharing on Facebook                      |      2 |
 
 ## Deliverables
 At the conclusion of this project, the following deliverables would have been fulfilled for a typical user of this application:
