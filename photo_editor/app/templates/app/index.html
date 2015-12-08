@@ -1,1 +1,100 @@
-{{ request.user.name }}
+{% load cloudinary %}
+{% load static %}
+{% include 'app/header.html' %}
+<body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="app container">
+            <div class="row bg-white pane-top"> <!-- top pane -->
+                <div class="col-sm-4">
+                    <h1>Photo Editr</h1>
+                </div>
+                <div class="col-sm-8">
+                    <div class="text-small profile-box"><!-- profile box  -->
+	                    <p class="text-right">
+	                    <img class="img-circle" src="{{request.user.profile_url}}"/>
+	                    Logged in as {{ request.user.name }}, <a href="{% url 'app.auth.logout' %}">Logout</a></p>
+                    </div><!-- profile box -->
+                </div>
+            </div> <!-- top pane -->
+
+            <div class="row" ng-controller="PhotosCtrl">
+                <div class="col-sm-3 bg-white img-rack-wrapper"> <!-- image selection pane -->
+                    <div class="img-rack text-center"><!-- image rack -->
+                        <div class="row img-item img-bottom-padding" ng-repeat="photo in photos" data-id="[[photo.id]]" select-img>
+                            <div class="col-sm-5" >
+                               <div class="img img-thumbnail">
+                                    <img ng-src="[[photo.thumbnailSrc]]" />
+                               </div>
+                            </div>
+                            <div class="col-sm-7 text-left relative">
+                                <div class="baseline">
+                                    <span class="img-title">[[ photo.title || 'Set title']]</span>
+                                    <br />
+                                    <span class="text-tiny">Last modified on <time datetime="[[ photo.edited_at ]]">[[ photo.edited_at | amDateFormat: 'DD/MM/YYYY, h:mm a' ]]
+                                    </time>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-hide="photos.length">No images have been uploaded yet</div>
+                    </div><!-- image rack -->
+                    <div class="text-center">
+                        <form class="hidden" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input name="image" type="file" />
+                        </form>
+                        <div id="uploadBtn" class="btn btn-primary"><span class="fa fa-upload"></span> Upload image</div>
+                    </div>
+                </div> <!-- image selection pane -->
+
+                <div class="col-sm-9 img-editing-pane"> <!-- image editing pane -->
+                    <div class="row"><!-- image editing toolbox -->
+                         <div class="col-sm-3 zero-padding">
+                            <span class="btn btn-tool fa fa-pencil"></span>
+                            <span class="btn btn-tool fa fa-trash"></span>
+                         </div>
+                         <div class="col-sm-9 zero-padding">
+                            {% block messages %}
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }}">
+                                            <a class="close" data-dismiss="alert">×</a>
+                                            {{ message|safe }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endblock %}
+                         </div>
+                    </div><!-- image editing toolbox -->
+
+                    <div class="row"><!-- image editing canvas -->
+                        <div class="img-editing-canvas">
+                            <div class="bg-white">
+                            </div>
+                        </div>
+                    </div><!-- image editing canvas -->
+
+                    <div class="row"><!-- image effects and filters selection pane -->
+                        <div class="img-fx">
+                            <div class="bg-white">
+                            </div>
+                        </div>
+                    </div><!-- image effects and filters selection pane -->
+
+                </div> <!-- image effects and filters selection pane -->
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="/static/bower_components/jquery/dist/jquery.min.js"><\/script>')</script>
+        <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'lib/angular.js' %}"></script>
+        <script src="{% static 'lib/moment.min.js' %}"></script>
+        <script src="{% static 'lib/angular-moment.min.js' %}"></script>
+        <script src="{% static 'js/plugins.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'js/app.js' %}"></script>
+    </body>
+</html>
