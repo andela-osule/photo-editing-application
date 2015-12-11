@@ -114,6 +114,9 @@ BOWER_INSTALLED_APPS = (
     'jquery',
     'bootstrap',
     'fontawesome',
+    'angular-moment',
+    'angular-animate',
+    'ng-file-upload'
 )
 
 # Facebook credentials
