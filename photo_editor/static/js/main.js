@@ -5,20 +5,6 @@ $(document).ready(function(){
     |-------------------------------------------------
     */
 	$('.login-wrapper').on('click', fbLogin);
-    /*
-    |-------------------------------------------------
-    | Show File Selection Window
-    |-------------------------------------------------
-    |
-    */
-    $('#uploadBtn').on('click', showUploadWnd);
-    /*
-    |-------------------------------------------------
-    | Verify file selected for upload
-    |-------------------------------------------------
-    */
-    $('input[name=image]').bind('change', verifyFileSelected);
-
 });
 
 var fbLogin = function (){
