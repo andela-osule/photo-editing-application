@@ -22,40 +22,30 @@
             <div class="row" ng-controller="PhotosCtrl">
                 <div class="col-sm-3 bg-white img-rack-wrapper"> <!-- image selection pane -->
                     <div class="img-rack text-center"><!-- image rack -->
-                        <div class="row img-item img-bottom-padding" ng-repeat="photo in photos" data-id="[[photo.id]]" select-img>
-                            <div class="col-sm-5" >
-                               <div class="img img-thumbnail">
-                                    <img ng-src="[[photo.thumbnailSrc]]" />
-                               </div>
-                            </div>
-                            <div class="col-sm-7 text-left relative">
-                                <div class="baseline">
-                                    <span class="img-title">[[ photo.title || 'Set title']]</span>
-                                    <br />
-                                    <span class="text-tiny">Last modified on <time datetime="[[ photo.edited_at ]]">[[ photo.edited_at | amDateFormat: 'DD/MM/YYYY, h:mm a' ]]
-                                    </time>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div ng-hide="photos.length">No images have been uploaded yet</div>
+                        <div class="row img-item img-bottom-padding" ng-repeat="photo in photos" data-id="[[photo.id]]" data-filesrc="[[ photo.src ]]" select-photo>
+                    </div>
+                    <div ng-hide="photos.length">No images have been uploaded yet</div>
+                        <!--Partials::selection.html-->
                     </div><!-- image rack -->
-                    <div class="text-center">
+                    <div class="text-center" ng-controller="PhotoCtrl">
                         <form class="hidden" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <input name="image" type="file" />
+                            <input name="image" ngf-select ng-model="file" type="file" />
                         </form>
-                        <div id="uploadBtn" class="btn btn-primary"><span class="fa fa-upload"></span> Upload image</div>
+                        <div ngf-select="upload($files)"  class="btn btn-primary"><span class="fa fa-upload"></span> Upload image</div>
                     </div>
                 </div> <!-- image selection pane -->
 
                 <div class="col-sm-9 img-editing-pane"> <!-- image editing pane -->
                     <div class="row"><!-- image editing toolbox -->
                          <div class="col-sm-3 zero-padding">
-                            <span class="btn btn-tool fa fa-pencil"></span>
-                            <span class="btn btn-tool fa fa-trash"></span>
+                            <a class="btn btn-tool fa fa-pencil" edit-photo></a>
+                            <a class="btn btn-tool fa fa-trash" delete-photo></a>
                          </div>
                          <div class="col-sm-9 zero-padding">
+                                <div class="alert alert-[[ message.tags ]]" ng-repeat="message in messages">
+                                <a ng-click="DestroyeAlert()" class="close" data-dismiss="alert">×</a>
+                                    [[ message.text ]]
+                                </div>
                             {% block messages %}
                                 {% if messages %}
                                     {% for message in messages %}
@@ -71,7 +61,8 @@
 
                     <div class="row"><!-- image editing canvas -->
                         <div class="img-editing-canvas">
-                            <div class="bg-white">
+                            <div class="bg-white text-center relative">
+                                <img id="photo" class="absolute-fifth"/>
                             </div>
                         </div>
                     </div><!-- image editing canvas -->
@@ -87,12 +78,13 @@
             </div>
         </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="/static/bower_components/jquery/dist/jquery.min.js"><\/script>')</script>
+        <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
         <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-        <script src="{% static 'lib/angular.js' %}"></script>
-        <script src="{% static 'lib/moment.min.js' %}"></script>
-        <script src="{% static 'lib/angular-moment.min.js' %}"></script>
+        <script src="{% static 'bower_components/angular/angular.min.js' %}"></script>
+        <script src="{% static 'bower_components/moment/min/moment.min.js' %}"></script>
+        <script src="{% static 'bower_components/ng-file-upload/ng-file-upload.min.js' %}"></script>
+        <script src="{% static 'bower_components/angular-moment/angular-moment.min.js' %}"></script>
+        <script src="{% static 'bower_components/angular-animate/angular-animate.min.js' %}"></script>
         <script src="{% static 'js/plugins.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
         <script src="{% static 'js/app.js' %}"></script>
