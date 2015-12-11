@@ -1,4 +1,3 @@
-import json
 from django.db import models
 from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import AbstractBaseUser
@@ -48,22 +47,22 @@ class Photo(models.Model):
         return "Photo <%s:%s>" % (self.title, public_id)
 
     @staticmethod
-    def get_for_user(user):
+    def get_for_user(user, latest=None):
         '''Returns list of photos belonging to the authenticated user.
         '''
-        user_photos = Photo.objects.filter(user=user)
+        user_photos = Photo.objects.filter(user=user).order_by('-edited_at')
+        if latest:
+            user_photos = [user_photos.latest('created_at')]
         Photo.set_thumbnail(user_photos)
-        return json.dumps(
-            [
-                {
-                    'title': photo.title,
-                    'thumbnailSrc': photo.thumbnail,
-                    'src': photo.image.url,
-                    'edited_at': photo.edited_at.isoformat(),
-                    'id': photo.id,
-                } for photo in user_photos
-            ]
-        )
+        return [
+            {
+                'title': photo.title,
+                'thumbnailSrc': photo.thumbnail,
+                'src': photo.image.url,
+                'edited_at': photo.edited_at.isoformat(),
+                'id': photo.id,
+            } for photo in user_photos
+        ]
 
     @staticmethod
     def set_thumbnail(photos):
