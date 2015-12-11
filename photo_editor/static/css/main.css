@@ -124,6 +124,14 @@ body {
 .zero-padding {
     padding: 0px;
 }
+
+.absolute-fifth {
+    position: absolute;
+    right: 0;
+    left: 0;
+    display: block;
+    margin: auto;
+}
 /*
 |-------------------------------------------------------
 | Profile bar
@@ -146,7 +154,7 @@ body {
 |-------------------------------------------------------
 */
 .img-rack-wrapper {
-	padding: 0px 15px 20px;
+	padding: 0px 15px 35px;
 }
 
 .img-rack {
@@ -171,12 +179,20 @@ body {
 	content: '';
     padding: 10px;
     margin-right: 5px;
+    color: #333333;
     background: #FFFFFF;
+    transition: all linear 0.3s;
 }
 
-.btn-tool:hover {
+.btn-tool:active, .btn-tool:hover {
     box-shadow: 0 0 1px 1px #D3D3D3;
+    color: #2692BE;
 }
+
+.clicked {
+    border: #ffdddd;
+}
+
 /*
 |-------------------------------------------------------
 | Application 
@@ -200,6 +216,12 @@ body {
 	min-height: 300px;
 	border: 1px solid #D8D8D8;
 	box-shadow: 0 0 1px 1px #D8D8D8;
+}
+
+.img-editing-canvas img {
+    width: calc(100%-20em);
+    height: 92%;
+    margin-top: 1.5%;
 }
 
 .img-fx {
@@ -238,6 +260,12 @@ body {
 .alert {
     padding: 8px;
     margin-bottom: 0px;
+}
+
+.hide {
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+  display: none;
 }
 /*
 |-------------------------------------------------------
