@@ -1,4 +1,4 @@
-angular.module('photoApp', ['angularMoment'])
+angular.module('photoApp', ['angularMoment', 'ngFileUpload', 'ngAnimate'])
     .config(function($interpolateProvider){
         $interpolateProvider.startSymbol('[[');
         $interpolateProvider.endSymbol(']]');
@@ -10,26 +10,119 @@ angular.module('photoApp', ['angularMoment'])
 | Set photos in controller scope
 |-------------------------------------------------------------
 */
-            $http.get('/photos').success(
-                function(responseData) {
-                    $scope.photos = JSON.parse(responseData);
-                }
-            );
-    })
+        $http.get('/photos').success(
+            function(responseData) {
+                $scope.photos = responseData.photos;
+            }
+        );
+        $scope.DestroyAlert = function() {
+            $('.alert').addClass('hide');
+        }
+        $scope.UpdatePhotoTitle = function() {
+            var photoId = this.photo.id;
+            $http.post('/photo/'+photoId+'/update', {})
+            .then(function(response){
+                console.log(response.data);
+            });
+        }
+    }).controller(
+        'PhotoCtrl', ['$scope', '$http', 'Upload', function($scope, $http, Upload){
+            $scope.upload = function ($files) {
+                /*$('input[name=image').click();*/
+                // console.log($scope.files);
+                $scope.doUpload($files[0]);
+            };
+            $scope.doUpload = function($file) {
+                Upload.upload({
+                url: '/upload/',
+                data: {image: $file}
+                }).then(function (response) {
+                    $scope.$parent.messages = [response.data.messages];
+                    $scope.$parent.photos.unshift(response.data.photo);
+                    $scope.$parent.DestroyAlert();
+                }, function (response) {
+                    console.log('Error status: ' + response.status);
+                }, function (event) {
+                    var progressPercentage = parseInt(100.0 * event.loaded / event.total);
+                    console.log('progress: ' + progressPercentage + '% ');
+                });
+            };
+        }
+    ])
     .directive(
 /*
 |-------------------------------------------------------------
-| Set directive for each photo, handle when photo is clicked
+| Set directive to select each photo, handle when photo is clicked
 |-------------------------------------------------------------
 */
-        'selectImg', ['$document', function($document) {
+        'selectPhoto', ['$document', function($document) {
             return {
+                templateUrl: 'static/Partials/selection.html',
                 link: function (scope, element, attr) {
                     element.on('click', function(event){
                         event.preventDefault();
                         $('.selected').toggleClass('selected');
-                        element.toggleClass('selected');
+                        $(this).toggleClass('selected');
+                        $('#photo').attr({'src':$(this).attr('data-filesrc')});
                     });
                 }
             }
-    }]);
+    }])
+    .directive(
+/*
+|-------------------------------------------------------------
+| Set directive to delete a selected photo
+|-------------------------------------------------------------
+*/
+        'deletePhoto', ['$document', '$http', function($document, $http) {
+            return function (scope, element, attr) {
+                    element.on('click', function(event){
+                        event.preventDefault();
+                        var selectedPhoto = $('.selected');
+                        var photoId = selectedPhoto.attr('data-id');
+                        if(photoId == undefined){
+                            scope.messages = [{'tags':'info', 'text':'Select a photo to delete'}];
+                            scope.$apply();
+                        }
+                        else {
+                            selectedPhoto.remove();
+                            $http.get('/photo/'+photoId+'/delete').success(
+                                function(responseData){
+                                    scope.messages = responseData;
+                                    scope.DestroyAlert();
+                                }
+                            );
+                        }
+                    });
+                }
+        }])
+    .directive(
+/*
+|-------------------------------------------------------------
+| Set directive to edit a selected photo
+|-------------------------------------------------------------
+*/
+        'editPhoto', ['$document', '$http', function ($document, $http) {
+            return function (scope, element, attr) {
+                element.on('click', function(event){
+                    event.preventDefault();
+                    var selectedPhoto = $('.selected');
+                    var photoId = selectedPhoto.attr('data-id');
+                    if(photoId == undefined){
+                        scope.messages = [{'tags':'info', 'text':'Select a photo to edit'}];
+                        scope.$apply();
+                    }
+                    else {
+                    }
+                });
+            }
+        }])
+    .directive(
+        'editPhotoTitle', ['$document', '$http', '$compile', function ($document, $compile, $http) {
+            return function (scope, element, attr) {
+                element.on('click', function (event, $http){
+                    $(this).next().toggleClass('hidden');
+                    $(this).toggleClass('hidden');
+                });
+            }
+        }]);
