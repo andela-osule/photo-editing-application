@@ -43,14 +43,14 @@
                          </div>
                          <div class="col-sm-9 zero-padding">
                                 <div class="alert alert-[[ message.tags ]]" ng-repeat="message in messages">
-                                <a ng-click="DestroyeAlert()" class="close" data-dismiss="alert">×</a>
+                                <a ng-click="DestroyAlert()" class="close red" data-dismiss="alert">✗</a>
                                     [[ message.text ]]
                                 </div>
                             {% block messages %}
                                 {% if messages %}
                                     {% for message in messages %}
                                         <div class="alert alert-{{ message.tags }}">
-                                            <a class="close" data-dismiss="alert">×</a>
+                                            <a class="close red" data-dismiss="alert">✗</a>
                                             {{ message|safe }}
                                         </div>
                                     {% endfor %}
