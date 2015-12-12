@@ -1,3 +1,4 @@
+from json import loads
 from .models import Photo
 from .forms import PhotoForm
 from django.conf import settings
@@ -115,7 +116,7 @@ class UploadPhotoView(View):
 
     def post(self, request):
         request.POST['user'] = request.user.id
-        request.POST['title'] = ''
+        request.POST['title'] = request.POST.get('title', '')
         mesgs = dict()
         photo_form = PhotoForm(
             request.POST,
@@ -130,4 +131,31 @@ class UploadPhotoView(View):
             mesgs['tags'] = 'danger'
             mesgs['text'] = UploadPhotoView.MSGS['ERROR']
         response_data = {'messages': mesgs, 'photo': uploaded_photo.pop()}
+        return JsonResponse(response_data)
+
+
+class UpdatePhotoTitleView(View):
+    '''Updates the photo title'''
+    MSGS = {
+        'ERROR':   'Photo title couldn\'t be updated',
+        'SUCCESS': 'Photo title has been updated successfully',
+    }
+
+    @csrf_exempt
+    def dispatch(self, *args, **kwargs):
+        return super(UpdatePhotoTitleView, self).dispatch(*args, **kwargs)
+
+    def post(self, request, photo_id):
+        mesgs = dict()
+        request.POST = loads(request.body)
+        request.POST['user'] = request.user.id
+        request.POST['title'] = request.POST.get('title', 'Set title')
+        try:
+            edited_at = Photo.objects.get(id=photo_id).update(request.POST)
+            mesgs['tags'] = 'success'
+            mesgs['text'] = UpdatePhotoTitleView.MSGS['SUCCESS']
+        except:
+            mesgs['tags'] = 'danger'
+            mesgs['text'] = UpdatePhotoTitleView.MSGS['ERROR']
+        response_data = {'messages': mesgs, 'edited_at': edited_at}
         return JsonResponse(response_data)
