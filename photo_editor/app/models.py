@@ -74,3 +74,9 @@ class Photo(models.Model):
                     width=80, height=80, crop='fill'
                 )
                 photo.save()
+
+    def update(self, form_data):
+        '''Updates a photo record'''
+        self.title = form_data.get('title')
+        self.save()
+        return self.edited_at
