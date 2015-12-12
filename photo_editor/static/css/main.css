@@ -160,6 +160,9 @@ body {
 .img-rack {
     min-height: 450px; 
 }
+.img-rack input {
+    width: 120px;
+}
 /*
 |-------------------------------------------------------
 | Form Button
@@ -266,6 +269,10 @@ body {
   -webkit-transition:all linear 0.5s;
   transition:all linear 0.5s;
   display: none;
+}
+
+.red, .red:hover {
+    color: red;
 }
 /*
 |-------------------------------------------------------
