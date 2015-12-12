@@ -8,6 +8,8 @@ urlpatterns = [
         url(r'^logout/$', views.DeAuthView.as_view(), name='app.auth.logout'),
         url(r'^photo/(?P<photo_id>[0-9]+)/delete/$', views.DestroyPhotoView
             .as_view(), name='app.photo.destroy'),
+        url(r'^photo/(?P<photo_id>[0-9]+)/update/$', views.UpdatePhotoTitleView
+            .as_view(), name='app.photo.update'),
         url(r'^upload/$', views.UploadPhotoView.as_view(),
             name='app.photo.upload'),
         url(r'^(?P<filename>(sitemap.xml)|(robots.txt)|(humans.txt))$',
