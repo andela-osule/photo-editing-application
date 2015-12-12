@@ -18,18 +18,31 @@ angular.module('photoApp', ['angularMoment', 'ngFileUpload', 'ngAnimate'])
         $scope.DestroyAlert = function() {
             $('.alert').addClass('hide');
         }
-        $scope.UpdatePhotoTitle = function() {
-            var photoId = this.photo.id;
-            $http.post('/photo/'+photoId+'/update', {})
-            .then(function(response){
-                console.log(response.data);
-            });
+        $scope.UpdatePhotoTitle = function($event) {
+            if($event.which == 0 | $event.which == 13)
+            {
+                var photoId = this.photo.id;
+                var photoTitle = $($event.currentTarget);
+                var scopeTitle = this.photo.title;
+                var _this = this;
+                if(photoTitle.val() != scopeTitle) {
+                $http.post('/photo/'+photoId+'/update/', {title: photoTitle.val()})
+                .then(function(response){
+                    console.log(response.data.messages);
+                    _this.photo.edited_at = response.data.edited_at;
+                    $scope.messages = [response.data.messages];
+                }, function(response){
+                    console.log('An error occurred');
+                });
+                }
+                this.photo.title = photoTitle.val();
+                photoTitle.prev().removeClass('hidden');
+                photoTitle.addClass('hidden');
+            }
         }
     }).controller(
         'PhotoCtrl', ['$scope', '$http', 'Upload', function($scope, $http, Upload){
             $scope.upload = function ($files) {
-                /*$('input[name=image').click();*/
-                // console.log($scope.files);
                 $scope.doUpload($files[0]);
             };
             $scope.doUpload = function($file) {
@@ -121,8 +134,12 @@ angular.module('photoApp', ['angularMoment', 'ngFileUpload', 'ngAnimate'])
         'editPhotoTitle', ['$document', '$http', '$compile', function ($document, $compile, $http) {
             return function (scope, element, attr) {
                 element.on('click', function (event, $http){
-                    $(this).next().toggleClass('hidden');
-                    $(this).toggleClass('hidden');
+                        var input = $(this).next();
+                        input.toggleClass('hidden').focus();
+                        var oldValue = input.val();
+                        input.val('');
+                        input.val(oldValue);
+                        $(this).toggleClass('hidden');
                 });
             }
         }]);
