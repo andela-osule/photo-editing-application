@@ -1,6 +1,9 @@
+import os
+from PIL import Image
 from django.db import models
-from cloudinary.models import CloudinaryField
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser
+THUMBNAIL_SIZE = 80, 80
 
 
 class SocialUser(AbstractBaseUser):
@@ -32,7 +35,7 @@ class Photo(models.Model):
     belonging to a user. The user can have
     many records.
     '''
-    image = CloudinaryField('image')
+    image = models.CharField(max_length=512)
     thumbnail = models.CharField(max_length=255, default='', blank=True)
     title = models.CharField(max_length=255, default='', blank=True)
     user = models.ForeignKey('SocialUser')
@@ -58,7 +61,7 @@ class Photo(models.Model):
             {
                 'title': photo.title,
                 'thumbnailSrc': photo.thumbnail,
-                'src': photo.image.url,
+                'src': photo.image,
                 'edited_at': photo.edited_at.isoformat(),
                 'id': photo.id,
             } for photo in user_photos
@@ -69,11 +72,14 @@ class Photo(models.Model):
         '''Generates thumbnail images from an uploaded image.
         '''
         for photo in photos:
-            if photo.thumbnail.find('80') == -1:
-                photo.thumbnail = photo.image.build_url(
-                    width=80, height=80, crop='fill'
-                )
-                photo.save()
+            filename, ext = os.path.splitext(photo.image)
+            im = Image.open(os.path.join(settings.BASE_DIR, photo.image))
+            im.thumbnail(THUMBNAIL_SIZE)
+            thumbnail_src = "{0}.thumbnail{1}".format(
+                os.path.join(settings.BASE_DIR, filename), ext
+            )
+            photo.thumbnail = os.path.relpath(thumbnail_src, settings.BASE_DIR)
+            im.save(thumbnail_src)
 
     def update(self, form_data):
         '''Updates a photo record'''
