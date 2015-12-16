@@ -1,5 +1,6 @@
 from json import loads
 from .models import Photo
+from .utils import Storage, Fx
 from .forms import PhotoForm
 from django.conf import settings
 from django.http import JsonResponse
@@ -115,12 +116,12 @@ class UploadPhotoView(View):
         return super(UploadPhotoView, self).dispatch(*args, **kwargs)
 
     def post(self, request):
-        request.POST['user'] = request.user.id
-        request.POST['title'] = request.POST.get('title', '')
+        user_id = request.user.id
+        title = request.POST.get('title', '')
+        image = Storage.upload(request)
         mesgs = dict()
         photo_form = PhotoForm(
-            request.POST,
-            request.FILES,
+            {'image': image, 'title': title, 'user': user_id}
         )
         if photo_form.is_valid():
             mesgs['tags'] = 'success'
@@ -158,4 +159,25 @@ class UpdatePhotoTitleView(View):
             mesgs['tags'] = 'danger'
             mesgs['text'] = UpdatePhotoTitleView.MSGS['ERROR']
         response_data = {'messages': mesgs, 'edited_at': edited_at}
+        return JsonResponse(response_data)
+
+
+class JSONFxListView(View):
+    '''Returns JSON of available effects'''
+    def get(self, request):
+        response_data = {
+            'fxCollection': [
+                {'name': fx} for fx in settings.PHOTO_FX
+            ]
+        }
+        return JsonResponse(response_data)
+
+
+class JSONFxApplyView(View):
+    '''Applies an effect and returns a base 64 data uri in JSON response'''
+    def get(self, request, photo_id, fx):
+        photo = Photo.objects.get(id=photo_id)
+        effected_im = Fx(photo.image, fx).apply()
+        effected_im_src = Storage.save(request, effected_im)
+        response_data = {'fxSrc': effected_im_src}
         return JsonResponse(response_data)
