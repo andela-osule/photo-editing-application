@@ -1,6 +1,14 @@
-{% load cloudinary %}
 {% load static %}
 {% include 'app/header.html' %}
+{% block app_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/slick-carousel/slick/slick.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/slick-carousel/slick/slick-theme.css' %}"/>
+{% endblock %}
+    <style>
+        .slick-slider {
+            margin-bottom: 0px;
+        }
+    </style>
 <body>
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -68,8 +76,12 @@
                     </div><!-- image editing canvas -->
 
                     <div class="row"><!-- image effects and filters selection pane -->
-                        <div class="img-fx">
+                        <div class="img-fx hidden">
                             <div class="bg-white">
+                                <div ng-controller="PhotoFxCtrl" class="top-padding-10px">
+                                    <!-- Wrapper for slides -->
+                                    <div class="slider" slides-to-show=5 slick ng-include src="'static/Partials/carouselfx.html'"></div>
+                                </div>
                             </div>
                         </div>
                     </div><!-- image effects and filters selection pane -->
@@ -85,8 +97,10 @@
         <script src="{% static 'bower_components/ng-file-upload/ng-file-upload.min.js' %}"></script>
         <script src="{% static 'bower_components/angular-moment/angular-moment.min.js' %}"></script>
         <script src="{% static 'bower_components/angular-animate/angular-animate.min.js' %}"></script>
+        <script src="{% static 'bower_components/slick-carousel/slick/slick.min.js' %}"></script>
+         <script src="{% static 'bower_components/angular-slick-carousel/dist/angular-slick.min.js' %}"></script>
         <script src="{% static 'js/plugins.js' %}"></script>
-        <script src="{% static 'js/main.js' %}"></script>
         <script src="{% static 'js/app.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
     </body>
 </html>
