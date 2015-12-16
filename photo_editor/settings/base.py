@@ -1,6 +1,5 @@
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import cloudinary
 from django.contrib import messages
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,7 +27,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djangobower',
-    'cloudinary',
     'app',
 )
 
@@ -116,7 +114,8 @@ BOWER_INSTALLED_APPS = (
     'fontawesome',
     'angular-moment',
     'angular-animate',
-    'ng-file-upload'
+    'ng-file-upload',
+    'slick-carousel',
 )
 
 # Facebook credentials
@@ -127,16 +126,22 @@ FB_SCOPE = ('email', 'public_profile', 'publish_actions',)
 
 AUTH_USER_MODEL = 'app.SocialUser'
 
-# Cloudinary credentials
-CLOUDINARY_ENHANCE_IMG_TAG = os.getenv('CLOUDINARY_ENHANCE_IMG_TAG')
-CLOUDINARY_STATIC_IMG_SUPPORT = os.getenv('CLOUDINARY_STATIC_IMG_SUPPORT')
-cloudinary.config(
-  cloud_name=os.getenv('CLOUDINARY_NAME'),
-  api_key=os.getenv('CLOUDINARY_API_KEY'),
-  api_secret=os.getenv('CLOUDINARY_API_SECRET'),
-)
-
 # Custom class for messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
+
+# Photo Filters
+PHOTO_FX = [
+    'Blur',
+    'Contour',
+    'Detail',
+    'Edge',
+    'Enhance Edge',
+    'Enhance More',
+    'Emboss',
+    'Find Edges',
+    'Smooth',
+    'Smooth More',
+    'Sharpen',
+]
