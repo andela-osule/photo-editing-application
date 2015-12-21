@@ -30,7 +30,7 @@
             <div class="row" ng-controller="PhotosCtrl">
                 <div class="col-sm-3 bg-white img-rack-wrapper"> <!-- image selection pane -->
                     <div class="img-rack text-center"><!-- image rack -->
-                        <div class="row img-item img-bottom-padding" ng-repeat="photo in photos" data-id="[[photo.id]]" data-filesrc="[[ photo.src ]]" select-photo>
+                        <div class="row img-item img-bottom-padding" ng-repeat="photo in photos" data-id="[[photo.id]]" data-filesrc="[[ photo.src ]]" select-photo ng-model="effectIsLoaded">
                     </div>
                     <div ng-hide="photos.length">No images have been uploaded yet</div>
                         <!--Partials::selection.html-->
@@ -45,15 +45,15 @@
 
                 <div class="col-sm-9 img-editing-pane"> <!-- image editing pane -->
                     <div class="row"><!-- image editing toolbox -->
-                         <div class="col-sm-3 zero-padding">
-                            <a class="btn btn-tool fa fa-pencil" edit-photo></a>
-                            <a class="btn btn-tool fa fa-trash" delete-photo></a>
+                         <div class="col-sm-2 zero-padding">
+                            <a class="btn btn-tool fa fa-pencil" title="Show effect panel" edit-photo></a>
+                            <a class="btn btn-tool fa fa-trash" title="Delete photo" delete-photo></a>
                          </div>
-                         <div class="col-sm-9 zero-padding">
-                                <div class="alert alert-[[ message.tags ]]" ng-repeat="message in messages">
+                         <div class="col-sm-8 zero-padding">
+                            <div ng-if="showAlert" class="alert alert-[[ message.tags ]]" ng-repeat="message in messages">
                                 <a ng-click="DestroyAlert()" class="close red" data-dismiss="alert">✗</a>
-                                    [[ message.text ]]
-                                </div>
+                                [[ message.text ]]
+                            </div>
                             {% block messages %}
                                 {% if messages %}
                                     {% for message in messages %}
@@ -64,6 +64,9 @@
                                     {% endfor %}
                                 {% endif %}
                             {% endblock %}
+                         </div>
+                         <div class="col-sm-2 zero-padding text-right">
+                             <a class="btn btn-tool fa fa-share-alt" title="Share link" share-photo></a>
                          </div>
                     </div><!-- image editing toolbox -->
 
@@ -76,11 +79,11 @@
                     </div><!-- image editing canvas -->
 
                     <div class="row"><!-- image effects and filters selection pane -->
-                        <div class="img-fx hidden">
+                        <div class="img-fx" ng-model="effectIsLoaded" ng-if="effectIsLoaded">
                             <div class="bg-white">
-                                <div ng-controller="PhotoFxCtrl" class="top-padding-10px">
+                                <div class="top-padding-10px">
                                     <!-- Wrapper for slides -->
-                                    <div class="slider" slides-to-show=5 slick ng-include src="'static/Partials/carouselfx.html'"></div>
+                                    <slick class="slider" slides-to-show=5 ng-include src="'static/Partials/carouselfx.html'"></slick>
                                 </div>
                             </div>
                         </div>
@@ -100,6 +103,7 @@
         <script src="{% static 'bower_components/slick-carousel/slick/slick.min.js' %}"></script>
          <script src="{% static 'bower_components/angular-slick-carousel/dist/angular-slick.min.js' %}"></script>
         <script src="{% static 'js/plugins.js' %}"></script>
+        <script src="{% static 'js/services.js' %}"></script>
         <script src="{% static 'js/app.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
     </body>
