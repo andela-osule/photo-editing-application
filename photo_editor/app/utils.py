@@ -1,21 +1,29 @@
 import os
+from PIL import Image
+from facebook import GraphAPI
 from django.conf import settings
-from PIL import Image, ImageFilter
 from django.utils.text import slugify
+from PIL import ImageFilter as PIL_ImageFilter
+from proxy import ImageFilterProxy, defaults
+
+
+ImageFilter = ImageFilterProxy(PIL_ImageFilter, defaults)
 
 
 class Fx(object):
     def __init__(self, image_url, fx):
         '''Creates an object effect applyable'''
-        self.FILTER = slugify(fx).upper().replace('-', '_')
         self.im = Image.open(os.path.join(settings.BASE_DIR, image_url))
+        self.FILTER = fx
 
     def apply(self):
         '''Applies an image effect'''
         filename = self.im.filename
-        print self.FILTER
-        self.im = self.im.filter(getattr(ImageFilter, self.FILTER))
-        self.im.filename = filename
+        if self.FILTER in settings.PHOTO_FX_BASIC:
+            self.im = do(self.FILTER, on=self.im, type="basic")
+        if self.FILTER in settings.PHOTO_FX_ADVANCED:
+            self.im = do(self.FILTER, on=self.im, type="advanced")
+        self.filename = filename
         return self
 
 
@@ -44,6 +52,7 @@ class Storage(object):
             raise IOError
         return os.path.relpath(im_path, settings.BASE_DIR)
 
+    @staticmethod
     def delete(request):
         """deletes user image
         returns: boolean
@@ -55,10 +64,28 @@ class Storage(object):
         '''Saves an effect applied on an image
         return: effected_im_source
         '''
-        # import pdb; pdb.set_trace()
-        filename, ext = os.path.splitext(fx.im.filename)
+        filename, ext = os.path.splitext(fx.filename)
         effected_im_src = "{0}.{1}{2}".format(
-                filename, fx.FILTER, ext
+            filename, fx.FILTER, ext
         )
         fx.im.save(effected_im_src)
         return os.path.relpath(effected_im_src, settings.BASE_DIR)
+
+
+def do(filter, on, type):
+    filter = slugify(filter).upper().replace('-', '_')
+    if type == 'basic':
+        return on.filter(getattr(ImageFilter, filter))
+    if type == 'advanced':
+        print "yay"
+        if on.mode != "L":
+            on = on.convert("L")
+        on.putpalette(getattr(ImageFilter, filter))
+        on = on.convert("RGB")
+        return on
+
+
+def publish(user, share_uri):
+    '''public url to facebook'''
+    ga = GraphAPI(user.access_token)
+    import pdb; pdb.set_trace()
