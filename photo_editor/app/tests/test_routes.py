@@ -41,3 +41,8 @@ class AppTestCase(TestCase):
         '''
         response = self.client.get(reverse('app.index'))
         self.assertEqual(response.status_code, 302)
+
+    def test_users_can_view_privacy_policy(self):
+        '''Test that users can view privacy policy'''
+        response = self.client.get(reverse('app.privacy'))
+        self.assertEqual(response.status_code, 200)
