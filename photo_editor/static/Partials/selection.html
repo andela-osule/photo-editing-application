@@ -5,7 +5,7 @@
 </div>
 <div class="col-sm-7 text-left relative">
     <div class="baseline">
-        <span class="img-title" edit-photo-title>[[ photo.title || 'Set title']]</span>
+        <span class="img-title" title="Click to edit title" edit-photo-title>[[ photo.title || 'Set title']]</span>
         <input class="hidden" type="text" name="photoTitle" value="[[ photo.title || 'Set title']]" ng-blur="UpdatePhotoTitle($event)" ng-keyup="UpdatePhotoTitle($event)"/>
         <br />
         <span class="text-tiny">Last modified on <time datetime="[[ photo.edited_at ]]">[[ photo.edited_at | amDateFormat: 'DD/MM/YYYY, h:mm a' ]]
