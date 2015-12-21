@@ -55,3 +55,4 @@ var verifyFileSelected = function() {
         $('form').submit();
     }
 }
+
