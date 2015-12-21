@@ -10,7 +10,7 @@ install:
 - pip install -q coverage
 - npm install bower
 script:
-- python photo_editor/manage.py bower install -s
+- python photo_editor/manage.py bower install -- -s
 - python photo_editor/manage.py collectstatic --noinput
 - python photo_editor/manage.py makemigrations
 - python photo_editor/manage.py migrate
