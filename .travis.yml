@@ -33,5 +33,3 @@ deploy:
   - python photo_editor/manage.py migrate auth
   - python photo_editor/manage.py migrate
   - python photo_editor/manage.py syncdb --noinput
-after_deploy:
-- heroku ps:scale web=1 --app photo-editr
