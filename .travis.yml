@@ -17,6 +17,7 @@ script:
 - coverage run --source photo_editor/app photo_editor/manage.py test
 after_success:
 - coveralls
+before_deploy: git fetch --unshallow
 deploy:
   provider: heroku
   api_key:
