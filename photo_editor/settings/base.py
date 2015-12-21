@@ -132,16 +132,26 @@ MESSAGE_TAGS = {
 }
 
 # Photo Filters
-PHOTO_FX = [
+PHOTO_FX_BASIC = (
+    'Alien',
     'Blur',
+    'Blur More',
+    'Brighten',
     'Contour',
     'Detail',
     'Edge',
-    'Enhance Edge',
-    'Enhance More',
+    'Edge Enhance',
+    'Edge Enhance More',
     'Emboss',
     'Find Edges',
     'Smooth',
     'Smooth More',
     'Sharpen',
-]
+    'Sharpen More',
+)
+
+PHOTO_FX_ADVANCED = (
+    'Sepia',
+    'Whoops',
+    'Grayscale',
+)
