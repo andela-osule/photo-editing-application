@@ -1,5 +1,5 @@
 from json import loads
-from .models import Photo
+from .models import Photo, Share
 from .utils import Storage, Fx
 from .forms import PhotoForm
 from django.conf import settings
@@ -57,7 +57,7 @@ class DeAuthView(View):
 
 class AppView(View):
     MSGS = {
-        'ERROR':   'Photo failed to upload at this time.',
+        'ERROR': 'Photo failed to upload at this time.',
         'SUCCESS': 'Photo successfully submitted for upload',
     }
 
@@ -87,7 +87,7 @@ class JSONPhotosView(View):
 class DestroyPhotoView(View):
     '''Deletes photo from the database'''
     MSGS = {
-        'ERROR':   'Photo does not exist',
+        'ERROR': 'Photo does not exist',
         'SUCCESS': 'Photo was deleted successfully',
     }
 
@@ -107,7 +107,7 @@ class DestroyPhotoView(View):
 class UploadPhotoView(View):
     '''Uploads photo to the database'''
     MSGS = {
-        'ERROR':   'Photo failed to upload at this time.',
+        'ERROR': 'Photo failed to upload at this time.',
         'SUCCESS': 'Photo successfully submitted for upload',
     }
 
@@ -138,7 +138,7 @@ class UploadPhotoView(View):
 class UpdatePhotoTitleView(View):
     '''Updates the photo title'''
     MSGS = {
-        'ERROR':   'Photo title couldn\'t be updated',
+        'ERROR': 'Photo title couldn\'t be updated',
         'SUCCESS': 'Photo title has been updated successfully',
     }
 
@@ -165,9 +165,10 @@ class UpdatePhotoTitleView(View):
 class JSONFxListView(View):
     '''Returns JSON of available effects'''
     def get(self, request):
+        filters = settings.PHOTO_FX_BASIC + settings.PHOTO_FX_ADVANCED
         response_data = {
             'fxCollection': [
-                {'name': fx} for fx in settings.PHOTO_FX
+                {'name': fx} for fx in filters
             ]
         }
         return JsonResponse(response_data)
@@ -181,3 +182,25 @@ class JSONFxApplyView(View):
         effected_im_src = Storage.save(request, effected_im)
         response_data = {'fxSrc': effected_im_src}
         return JsonResponse(response_data)
+
+
+class ShareView(View):
+    '''Shares a photo URI'''
+
+    @csrf_exempt
+    def dispatch(self, *args, **kwargs):
+        return super(ShareView, self).dispatch(*args, **kwargs)
+
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        body = loads(request.body)
+        Share.this(request.user, body.get('src'))
+        response_data = {'status': 'done'}
+        return JsonResponse(response_data)
+
+
+class PrivacyView(View):
+    def get(self, request):
+        return render(request, 'app/privacy.html')
