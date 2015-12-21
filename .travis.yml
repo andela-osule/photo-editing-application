@@ -5,9 +5,9 @@ env:
   global:
   - DJANGO_SETTINGS_MODULE='settings.testing'
 install:
-- pip install -r requirements/testing.txt
-- pip install python-coveralls
-- pip install coverage
+- pip install -r -q requirements/testing.txt
+- pip install -q python-coveralls
+- pip install -q coverage
 - npm install bower
 script:
 - python photo_editor/manage.py bower install -s
