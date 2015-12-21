@@ -1,6 +1,8 @@
 import os
+import random
 from PIL import Image
 from django.db import models
+from app.utils import publish
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser
 THUMBNAIL_SIZE = 80, 80
@@ -86,3 +88,46 @@ class Photo(models.Model):
         self.title = form_data.get('title')
         self.save()
         return self.edited_at
+
+
+class Share(models.Model):
+    '''Store public URLs.'''
+    uri = models.CharField(max_length=255)
+    src = models.CharField(max_length=255)
+    shared_at = models.DateTimeField(auto_now=True)
+    views = models.IntegerField(default=0)
+    user = models.ForeignKey('SocialUser')
+
+    @staticmethod
+    def this(owner, image_src):
+        '''Share a photo resource.'''
+        share = Share()
+        generate = Share.random_word()
+        share.src = image_src
+        share.uri = generate.next()
+        share.views = 0
+        while Share.objects.filter(uri=share.uri).count():
+            share.uri = Share.random_word().next()
+        share.user = owner
+        share.save()
+        publish(share.user, share.uri)
+
+    @staticmethod
+    def update_view_count(public_uri):
+        '''Update number of public views'''
+        share = Share.objects.get(uri=public_uri)
+        share.views += 1
+        share.save()
+
+    @staticmethod
+    def random_word():
+        '''Generate a random word'''
+        word = ''
+        for i in range(8):
+            word += random.choice(
+                '{0}{1}{2}'.format(
+                    'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                    'abcdefghijklmnopqrstuvwxyz',
+                    '0123456789')
+            )
+        yield word
