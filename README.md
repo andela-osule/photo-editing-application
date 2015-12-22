@@ -73,4 +73,4 @@ python photo_editor/manage.py runserver
 More filters are on the way.
 
 ### Contribution
-Send a pull request and brew coffee. I shall look through it
+Send a pull request and brew coffee. I shall look through it and do the needful.
