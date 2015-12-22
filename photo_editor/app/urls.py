@@ -14,6 +14,9 @@ urlpatterns = [
 
     url(r'^photo/share/$', views.ShareView.as_view(), name='app.photo.share'),
 
+    url(r'^photo/download/$', views.DownloadView
+        .as_view(), name='app.fileserve'),
+
     url(r'^photo/(?P<photo_id>[0-9]+)/delete/$', views.DestroyPhotoView
         .as_view(), name='app.photo.destroy'),
 
