@@ -193,7 +193,7 @@ angular.module('photoApp', ['angularMoment', 'slickCarousel', 'PhotoEffectsSvc',
             };
         }])
     .directive(
-        'sharePhoto', ['$http', function($http){
+        'sharePhoto', ['$http', 'Publish', function($http, Publish){
             return {
                 restrict: 'A',
                 link: function(scope, element, attr) {
@@ -203,8 +203,19 @@ angular.module('photoApp', ['angularMoment', 'slickCarousel', 'PhotoEffectsSvc',
                             $http.post('/photo/share/', {src:transformPhotoSrc})
                             .success(
                                 function(response){
-                                    scope.messages = [{'tags':'info', 'text':'Photo URI has been shared to your timeline.'}];
-                                    scope.ShowSublimalAlert();
+                                    if(response.status) {
+                                        var name = angular.element('.selected span.img-title').text();
+                                        Publish.do(name, response.uri, response.photo, response.APP_ID).then(
+                                            function(data){
+                                                scope.messages = [{'tags':'info', 'text':'Photo URI has been shared to your timeline.'}];
+                                                scope.ShowSublimalAlert();
+                                            },
+                                            function(data){
+                                                scope.messages = [{'tags':'danger', 'text':'Photo URI couldn\'t be shared to your timeline.'}];
+                                                scope.ShowSublimalAlert();
+                                            }
+                                        );
+                                    }
                                 }
                             ).error(function(response){
                                 scope.messages = [{'tags':'danger', 'text':'An error occurred.'}];
