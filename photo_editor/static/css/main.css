@@ -260,6 +260,13 @@ body {
     padding-top: 10px;
 }
 
+.img-logo {
+    width: 30px;
+    display: inline;
+}
+.slick-slider {
+    margin-bottom: 0px;
+}
 /*
 |-------------------------------------------------------
 | Alerts
