@@ -34,25 +34,3 @@ var fbLogin = function (){
         }
     });
 }
-
-var showUploadWnd = function() {
-    $('input[name=image').click();
-}
-
-var verifyFileSelected = function() {
-    var fakeFilePath = $(this).val();
-    var allowedFileTypes =  ['png', 'jpg'];
-    var pathSplit = fakeFilePath.split('.');
-    var fileExtension = pathSplit[pathSplit.length - 1];
-    /*
-    |--------------------------------------------------
-    | Check if file extension is right then submit
-    |--------------------------------------------------
-    | form
-    |--------------------------------------------------
-    */
-    if ( allowedFileTypes.indexOf(fileExtension) !== -1 ){
-        $('form').submit();
-    }
-}
-
