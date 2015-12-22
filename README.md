@@ -1,6 +1,5 @@
-# Photo Editr
+# Photo Editr [![Travis build badge](https://travis-ci.org/andela-osule/photo-editing-application.svg?branch=master)](https://travis-ci.org/andela-osule/photo-editing-application) [![Coverage Status](https://coveralls.io/repos/andela-osule/photo-editing-application/badge.svg?branch=master&service=github)](https://coveralls.io/github/andela-osule/photo-editing-application?branch=master)
 A photo editor for happy people powered by Django.
- [![Travis build badge](https://travis-ci.org/andela-osule/photo-editing-application.svg?branch=master)](https://travis-ci.org/andela-osule/photo-editing-application) [![Coverage Status](https://coveralls.io/repos/andela-osule/photo-editing-application/badge.svg?branch=master&service=github)](https://coveralls.io/github/andela-osule/photo-editing-application?branch=master)
 --------------------------------------------------
 Photo Editr allows you to edit your photos and share them with your friends.
 
