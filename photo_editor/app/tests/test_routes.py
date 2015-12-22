@@ -46,3 +46,26 @@ class AppTestCase(TestCase):
         '''Test that users can view privacy policy'''
         response = self.client.get(reverse('app.privacy'))
         self.assertEqual(response.status_code, 200)
+
+    def test_user_can_view_photos(self):
+        '''Test that user can view photos'''
+        pass
+
+    def test_user_can_download_photo(self):
+        '''Test that user can download photo'''
+        pass
+
+    def test_user_can_delete_photo(self):
+        '''Test that user can delete photo'''
+
+    def test_user_can_share_photo(self):
+        '''Test that user can share photo'''
+        pass
+
+    def test_user_can_update_photo_title(self):
+        '''Test that user can update photo title'''
+        pass
+
+    def test_user_can_upload_photo(self):
+        '''Test that user can upload photo'''
+        pass
