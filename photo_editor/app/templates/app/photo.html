@@ -1,0 +1,23 @@
+{% load static %}
+{% include 'app/header.html' with title='Share' %}
+{% block app_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/slick-carousel/slick/slick.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/slick-carousel/slick/slick-theme.css' %}"/>
+{% endblock %}
+<body>
+
+    <div class="app container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-8" class="text-center">
+                    <img src="/{{photo.src }}"/>
+                </div>
+                <div class="col-sm-3 text-center">
+                    <p>Views: {{photo.downloads}} </p>
+                    <a href="{% url 'app.fileserve' %}?file={{photo.src}}" class="btn btn-default">Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
