@@ -7,7 +7,7 @@ from .forms import PhotoForm
 from django.conf import settings
 from django.views.generic import View
 from django.core.urlresolvers import reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse, HttpResponseNotFound
 
@@ -216,16 +216,16 @@ class PrivacyView(View):
 
 class DownloadView(View):
     def get(self, request):
-        photo = request.GET.get('file')
+        uri = request.GET.get('file')
+        photo = get_object_or_404(Share, uri=uri)
         try:
             mimetypes.init()
-            file_path = os.path.join(settings.BASE_DIR, photo)
+            file_path = os.path.join(settings.BASE_DIR, photo.src)
             file_name = os.path.basename(file_path)
             mtype = mimetypes.guess_type(file_name)
             fsock = open(file_path, "rb")
-            share = Share.objects.get(src=photo)
-            share.downloads += 1
-            share.save()
+            photo.downloads += 1
+            photo.save()
             response = HttpResponse(fsock, content_type=mtype[0])
             response['Content-Disposition'] = 'attachment;filename='\
                 + file_name
