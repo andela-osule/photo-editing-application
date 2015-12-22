@@ -1,5 +1,5 @@
 {% load static %}
-{% include 'app/header.html' %}
+{% include 'app/header.html' with title='Login' %}
     <body>
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -9,7 +9,7 @@
                 <div class="col-sm-push-4 col-sm-4">
                     <div class="posit-relative">
 	                    <div class="login-wrapper"> <!-- Login wrapper starts here -->            
-		                    <h1 class="appname text-center">Photo Editr</h1>
+		                    <h1 class="appname text-center"><img class="img img-responsive img-logo" src="{% static 'images/logo.png' %}"/> Photo Editr</h1>
 		                    <div class="tagline text-center">A 21st century photo editor for the inter-web {{sessionitems}}</div>
 		                    <div class="feature-story">
 		                      <ul>

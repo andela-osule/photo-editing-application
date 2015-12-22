@@ -1,14 +1,9 @@
 {% load static %}
-{% include 'app/header.html' %}
+{% include 'app/header.html' with title='Dashboard' %}
 {% block app_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/slick-carousel/slick/slick.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/slick-carousel/slick/slick-theme.css' %}"/>
 {% endblock %}
-    <style>
-        .slick-slider {
-            margin-bottom: 0px;
-        }
-    </style>
 <body>
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -16,7 +11,7 @@
         <div class="app container">
             <div class="row bg-white pane-top"> <!-- top pane -->
                 <div class="col-sm-4">
-                    <h1>Photo Editr</h1>
+                    <h1><img class="img img-responsive img-logo" src="{% static 'images/logo.png' %}"/> Photo Editr</h1>
                 </div>
                 <div class="col-sm-8">
                     <div class="text-small profile-box"><!-- profile box  -->
