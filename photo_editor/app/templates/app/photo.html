@@ -7,17 +7,30 @@
 <body>
 
     <div class="app container">
-        <div class="row">
+        <div class="row bg-white pane-top">
+            <div class="col-sm-4">
+                <h1><img class="img img-responsive img-logo" src="{% static 'images/logo.png' %}"/> Photo Editr</h1>
+            </div>
+        </div>
+        <div class="row" ng-controller="DownloadCtrl">
             <div class="col-sm-12">
-                <div class="col-sm-8" class="text-center">
-                    <img src="/{{photo.src }}"/>
-                </div>
-                <div class="col-sm-3 text-center">
-                    <p>Views: {{photo.downloads}} </p>
-                    <a href="{% url 'app.fileserve' %}?file={{photo.src}}" class="btn btn-default">Download</a>
+                <div class="row">
+                    <div class="col-sm-8 zero-padding" class="text-center">
+                        <img src="/{{photo.src }}"/>
+                    </div>
+                    <div class="col-sm-3 text-center">
+                        <div class="nudge down">
+                            <p>Downloads: <span ng-model="downloadCount" ng-bind="downloadCount">[[downloadCount]]</span> </p>
+                            <a href="{% url 'app.fileserve' %}?file={{photo.uri}}" class="btn btn-default" ng-click='UpdateDownloadCount($event, "{% url 'app.fileserve' %}?file={{photo.uri}}")' ng-init="downloadCount={{photo.downloads}}">Download</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'bower_components/angular/angular.min.js' %}"></script>
+    <script src="{% static 'js/download.js' %}"></script>
 </body>
