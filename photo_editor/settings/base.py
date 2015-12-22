@@ -105,6 +105,8 @@ STATICFILES_FINDERS = (
     'djangobower.finders.BowerFinder',
 )
 
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 # Bower components
 BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_ROOT)
 
