@@ -298,3 +298,12 @@ body {
 .selected .img-title, .selected .text-tiny {
     color: #FFFFFF;
 }
+/*
+|-------------------------------------------------------
+| Download
+|-------------------------------------------------------
+*/
+.nudge.down {
+    margin-top: 200px;
+}
+
