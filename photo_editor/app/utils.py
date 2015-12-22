@@ -83,9 +83,3 @@ def do(filter, on, type):
         on.putpalette(getattr(ImageFilter, filter))
         on = on.convert("RGB")
         return on
-
-
-def publish(user, share_uri):
-    '''public url to facebook'''
-    ga = GraphAPI(user.access_token)
-    import pdb; pdb.set_trace()
