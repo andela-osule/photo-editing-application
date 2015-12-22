@@ -1,13 +1,15 @@
+import os
+import mimetypes
 from json import loads
 from .models import Photo, Share
 from .utils import Storage, Fx
 from .forms import PhotoForm
 from django.conf import settings
-from django.http import JsonResponse
 from django.views.generic import View
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse, HttpResponse, HttpResponseNotFound
 
 
 class RootFilesView(View):
@@ -192,15 +194,41 @@ class ShareView(View):
         return super(ShareView, self).dispatch(*args, **kwargs)
 
     def get(self, request):
-        pass
+        uri = request.GET.get('uri')
+        photo = Share.get_photo(uri)
+        return render(request, 'app/photo.html', {'photo': photo})
 
     def post(self, request):
         body = loads(request.body)
-        Share.this(request.user, body.get('src'))
-        response_data = {'status': 'done'}
+        share = Share.this(request.user, body.get('src'))
+        response_data = {
+            'status': 'done', 'uri': share.uri,
+            'photo': share.src,
+            'APP_ID': settings.FB_APP_ID
+        }
         return JsonResponse(response_data)
 
 
 class PrivacyView(View):
     def get(self, request):
         return render(request, 'app/privacy.html')
+
+
+class DownloadView(View):
+    def get(self, request):
+        photo = request.GET.get('file')
+        try:
+            mimetypes.init()
+            file_path = os.path.join(settings.BASE_DIR, photo)
+            file_name = os.path.basename(file_path)
+            mtype = mimetypes.guess_type(file_name)
+            fsock = open(file_path, "rb")
+            share = Share.objects.get(src=photo)
+            share.downloads += 1
+            share.save()
+            response = HttpResponse(fsock, content_type=mtype[0])
+            response['Content-Disposition'] = 'attachment;filename='\
+                + file_name
+        except:
+            return HttpResponseNotFound('Photo not found')
+        return response
