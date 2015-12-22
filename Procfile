@@ -1,1 +1,1 @@
-web: python photo_editor/manage.py collectstatic --noinput --settings=settings.staging --verbosity 0; gunicorn photo_editor.wsgi --pythonpath=photo_editor --log-file -
+web: python photo_editor/manage.py collectstatic --noinput --settings=settings.staging --verbosity 0; python photo_editor/manage.py makemigrations; python photo_editor/manage.py migrate auth; python photo_editor/manage.py migrate; python photo_editor/manage.py syncdb --noinput; gunicorn photo_editor.wsgi --pythonpath=photo_editor --log-file -

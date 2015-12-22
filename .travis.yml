@@ -26,10 +26,3 @@ deploy:
   strategy: git
   app:
     develop: photo-editr
-  run:
-  - export DJANGO_SETTINGS_MODULE=settings.staging
-  - python photo_editor/manage.py collectstatic --noinput
-  - python photo_editor/manage.py makemigrations
-  - python photo_editor/manage.py migrate auth
-  - python photo_editor/manage.py migrate
-  - python photo_editor/manage.py syncdb --noinput
