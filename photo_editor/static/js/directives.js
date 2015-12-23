@@ -146,6 +146,7 @@
                     ).error(function (response) {
                         scope.messages = [{'tags':'danger', 'text':'An error occurred.'}];
                         scope.ShowSublimalAlert();
+                        console.log(response);
                     });
                 }
             });
