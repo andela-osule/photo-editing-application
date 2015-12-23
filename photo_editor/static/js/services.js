@@ -1,7 +1,7 @@
 //Services Module
 var app = angular.module('photoEffectsSvc', []);
 // Service definition
-app.service('EffectsDS', function($http){
+app.service('EffectsDS', function ($http) {
     var effectIsLoaded = false;
 
     var photos = [];
@@ -9,18 +9,18 @@ app.service('EffectsDS', function($http){
     var effects = [];
 
     return {
-        setTrue: function(){
+        setTrue: function (){
             effectIsLoaded = true;
         },
-        setFalse: function(){
+        setFalse: function (){
             effectIsLoaded = false;
         },
 
-        getStatus: function(){
+        getStatus: function (){
             return effectIsLoaded;
         },
 
-        getEffects: function() {
+        getEffects: function () {
             var _this = this;
             if (effects.length === 0){
                 return $http.get('/settings/effects/').then(
@@ -47,6 +47,8 @@ app.factory('Publish', function($q){
      return {
         do: function(name, uri, img, app_id){
             var deferred = $q.defer();
+            var urlPrefix = location.protocol+ '//' + location.host;
+
             FB.init({
                 appId: app_id,
                 status: true,
@@ -54,15 +56,16 @@ app.factory('Publish', function($q){
                 xfbml: true,
                 version: 'v2.4'
             });
+
             FB.ui({
               method: 'feed',
               name: name,
               display: 'popup',
-              link: location.protocol + '//' + location.host + '/photo/share?uri=' + uri,
+              link: urlPrefix + '/photo/share?uri=' + uri,
               caption:"Shared from Photo Editr",
-              picture: "http://" + location.host + '/' + encodeURIComponent(img),
+              picture: urlPrefix + encodeURI(img),
               description: 'Check me out on Photo Editr - Built with <3 by CodeKnight'
-            }, function(response){
+            }, function (response) {
                 if (!response || response.error) {
                     deferred.reject('Error occured');
                 } else {
