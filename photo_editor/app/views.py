@@ -73,10 +73,6 @@ class AppView(View):
             context['photos'] = Photo.objects.filter(user=request.user)
         return render(request, 'app/index.html', context)
 
-    def post(self, request):
-        '''Upload files to Cloudinary'''
-        pass
-
 
 class JSONPhotosView(View):
     '''Returns photos belonging to authenticated user as JSON
@@ -118,17 +114,18 @@ class UploadPhotoView(View):
         return super(UploadPhotoView, self).dispatch(*args, **kwargs)
 
     def post(self, request):
-        user_id = request.user.id
-        title = request.POST.get('title', '')
-        image = Storage.upload(request)
         mesgs = dict()
         photo_form = PhotoForm(
-            {'image': image, 'title': title, 'user': user_id}
+            request.POST, request.FILES
         )
-        if photo_form.is_valid():
-            mesgs['tags'] = 'success'
-            mesgs['text'] = UploadPhotoView.MSGS['SUCCESS']
-            photo_form.save()
+        if photo_form.files['image'].size < settings.MAX_UPLOAD_SIZE:
+            if photo_form.is_valid():
+                photo_form = photo_form.save(commit=False)
+                mesgs['tags'] = 'success'
+                mesgs['text'] = UploadPhotoView.MSGS['SUCCESS']
+                photo_form.title = request.POST.get('title', '')
+                photo_form.user = request.user
+                photo_form.save()
             uploaded_photo = Photo.get_for_user(request.user, latest=True)
         else:
             mesgs['tags'] = 'danger'
@@ -180,9 +177,9 @@ class JSONFxApplyView(View):
     '''Applies an effect and returns a base 64 data uri in JSON response'''
     def get(self, request, photo_id, fx):
         photo = Photo.objects.get(id=photo_id)
-        effected_im = Fx(photo.image, fx).apply()
+        effected_im = Fx(photo, fx).apply()
         effected_im_src = Storage.save(request, effected_im)
-        response_data = {'fxSrc': effected_im_src}
+        response_data = {'filteredPhotoURI': effected_im_src}
         return JsonResponse(response_data)
 
 
@@ -220,8 +217,11 @@ class DownloadView(View):
         photo = get_object_or_404(Share, uri=uri)
         try:
             mimetypes.init()
-            file_path = os.path.join(settings.BASE_DIR, photo.src)
+            file_path = os.path.join(
+                settings.BASE_DIR, photo.src[1:]
+            )
             file_name = os.path.basename(file_path)
+            print file_path
             mtype = mimetypes.guess_type(file_name)
             fsock = open(file_path, "rb")
             photo.downloads += 1
