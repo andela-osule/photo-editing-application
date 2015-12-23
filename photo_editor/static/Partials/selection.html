@@ -1,9 +1,9 @@
-<div class="col-sm-5" >
-   <div class="img img-thumbnail">
-        <img ng-src="[[photo.thumbnailSrc]]" />
+<div class="col-sm-5">
+   <div>
+        <img ng-src="[[photo.thumbnail]]" class="img img-thumbnail"/>
    </div>
 </div>
-<div class="col-sm-7 text-left relative">
+<div class="col-sm-7 text-left">
     <div class="baseline">
         <span class="img-title" title="Click to edit title" edit-photo-title>[[ photo.title || 'Set title']]</span>
         <input class="hidden" type="text" name="photoTitle" value="[[ photo.title || 'Set title']]" ng-blur="UpdatePhotoTitle($event)" ng-keyup="UpdatePhotoTitle($event)"/>
