@@ -196,7 +196,7 @@ class ShareView(View):
         return render(request, 'app/photo.html', {'photo': photo})
 
     def post(self, request):
-        body = loads(request.body)
+        body = loads(request.POST)
         share = Share.this(request.user, body.get('src'))
         response_data = {
             'status': 'done', 'uri': share.uri,
