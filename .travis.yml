@@ -14,7 +14,7 @@ script:
 - python photo_editor/manage.py collectstatic --noinput
 - python photo_editor/manage.py makemigrations
 - python photo_editor/manage.py migrate
-- coverage run --source photo_editor/app photo_editor/manage.py test
+- python photo_editor/manage.py test
 after_success:
 - coveralls
 before_deploy: git fetch --unshallow
