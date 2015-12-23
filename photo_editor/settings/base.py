@@ -123,8 +123,11 @@ BOWER_INSTALLED_APPS = (
 
 # Facebook credentials
 FB_APP_ID = os.getenv('FB_APP_ID')
+
 FB_APP_NAME = os.getenv('FB_APP_NAME')
+
 FB_APP_SECRET = os.getenv('FB_APP_SECRET')
+
 FB_SCOPE = ('email', 'public_profile', 'publish_actions',)
 
 AUTH_USER_MODEL = 'app.SocialUser'
@@ -158,3 +161,10 @@ PHOTO_FX_ADVANCED = (
     'Whoops',
     'Grayscale',
 )
+
+MEDIA_URL = '/'
+
+MEDIA_ROOT = 'photo_editor'
+
+# Max file size 10MB
+MAX_UPLOAD_SIZE = 10485760
