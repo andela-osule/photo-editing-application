@@ -1,5 +1,5 @@
 //Services Module
-var app = angular.module('PhotoEffectsSvc', []);
+var app = angular.module('photoEffectsSvc', []);
 // Service definition
 app.service('EffectsDS', function($http){
     var effectIsLoaded = false;
@@ -43,7 +43,7 @@ app.service('EffectsDS', function($http){
     };    
 });
 
-app.service('Publish', function($q){
+app.factory('Publish', function($q){
      return {
         do: function(name, uri, img, app_id){
             var deferred = $q.defer();

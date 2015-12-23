@@ -4,14 +4,15 @@
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/slick-carousel/slick/slick.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/slick-carousel/slick/slick-theme.css' %}"/>
 {% endblock %}
-<body>
+<body ng-cloak>
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <div class="app container">
             <div class="row bg-white pane-top"> <!-- top pane -->
                 <div class="col-sm-4">
-                    <h1><img class="img img-responsive img-logo" src="{% static 'images/logo.png' %}"/> Photo Editr</h1>
+                    <h1><img class="img img-responsive img-logo" src="{% static 'images/logo.png' %}"/>
+                    <a href="{% url 'app.index' %}">Photo Editr</a></h1>
                 </div>
                 <div class="col-sm-8">
                     <div class="text-small profile-box"><!-- profile box  -->
@@ -22,15 +23,15 @@
                 </div>
             </div> <!-- top pane -->
 
-            <div class="row" ng-controller="PhotosCtrl">
+            <div class="row" ng-controller="PhotosController">
                 <div class="col-sm-3 bg-white img-rack-wrapper"> <!-- image selection pane -->
                     <div class="img-rack text-center"><!-- image rack -->
-                        <div class="row img-item img-bottom-padding" ng-repeat="photo in photos" data-id="[[photo.id]]" data-filesrc="[[ photo.src ]]" select-photo ng-model="effectIsLoaded">
+                        <div class="row img-item img-bottom-padding" ng-repeat="photo in photos" data-id="[[photo.id]]" data-filesrc="[[ photo.image ]]" select-photo ng-model="effectIsLoaded">
                     </div>
                     <div ng-hide="photos.length">No images have been uploaded yet</div>
                         <!--Partials::selection.html-->
                     </div><!-- image rack -->
-                    <div class="text-center" ng-controller="PhotoCtrl">
+                    <div class="text-center overflow-hide" ng-controller="PhotoController">
                         <form class="hidden" method="POST" enctype="multipart/form-data">
                             <input name="image" ngf-select ng-model="file" type="file" />
                         </form>
@@ -40,11 +41,11 @@
 
                 <div class="col-sm-9 img-editing-pane"> <!-- image editing pane -->
                     <div class="row"><!-- image editing toolbox -->
-                         <div class="col-sm-2 zero-padding">
+                         <div class="col-xs-2 col-sm-2 zero-padding">
                             <a class="btn btn-tool fa fa-pencil" title="Show effect panel" edit-photo></a>
-                            <a class="btn btn-tool fa fa-trash" title="Delete photo" delete-photo></a>
+                            <a class="btn btn-tool fa fa-trash" title="Delete photo" ng-model="photos" delete-photo></a>
                          </div>
-                         <div class="col-sm-8 zero-padding">
+                         <div class="col-xs-8 col-sm-8 zero-padding">
                             <div ng-if="showAlert" class="alert alert-[[ message.tags ]]" ng-repeat="message in messages">
                                 <a ng-click="DestroyAlert()" class="close red" data-dismiss="alert">✗</a>
                                 [[ message.text ]]
@@ -60,7 +61,7 @@
                                 {% endif %}
                             {% endblock %}
                          </div>
-                         <div class="col-sm-2 zero-padding text-right">
+                         <div class="col-xs-2 col-sm-2 zero-padding text-right">
                              <a class="btn btn-tool fa fa-share-alt" title="Share link" share-photo></a>
                          </div>
                     </div><!-- image editing toolbox -->
@@ -76,9 +77,9 @@
                     <div class="row"><!-- image effects and filters selection pane -->
                         <div class="img-fx" ng-model="effectIsLoaded" ng-if="effectIsLoaded">
                             <div class="bg-white">
-                                <div class="top-padding-10px">
+                                <div>
                                     <!-- Wrapper for slides -->
-                                    <slick class="slider" slides-to-show=5 ng-include src="'static/Partials/carouselfx.html'"></slick>
+                                    <slick class="slider" ng-cloak slides-to-show=5 ng-include src="'static/Partials/carouselfx.html'"></slick>
                                 </div>
                             </div>
                         </div>
@@ -99,6 +100,8 @@
          <script src="{% static 'bower_components/angular-slick-carousel/dist/angular-slick.min.js' %}"></script>
         <script src="{% static 'js/plugins.js' %}"></script>
         <script src="{% static 'js/services.js' %}"></script>
+        <script src="{% static 'js/directives.js' %}"></script>
+        <script src="{% static 'js/controllers.js' %}"></script>
         <script src="{% static 'js/app.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
     </body>
