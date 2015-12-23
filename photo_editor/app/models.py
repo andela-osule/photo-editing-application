@@ -3,14 +3,27 @@ import random
 from PIL import Image
 from django.db import models
 from django.conf import settings
+from django.dispatch import receiver
+from django.db.models.signals import post_delete
 from django.contrib.auth.models import AbstractBaseUser
 THUMBNAIL_SIZE = 80, 80
+
+
+class SocialUserManager(models.Manager):
+    '''Manage custom user model'''
+    def __init__(self, *args):
+        super(SocialUserManager, self).__init__()
+
+    def create_user(self, *args, **kwargs):
+        '''Create a new user'''
+        return SocialUser(**kwargs)
 
 
 class SocialUser(AbstractBaseUser):
     '''This model extends the AbstractBaseUser class, serving
     as a data store for authenticated users.
     '''
+    objects = SocialUserManager()
     name = models.CharField(null=False, max_length=255, default='',)
     profile_url = models.TextField(null=True)
     access_token = models.TextField(null=True)
@@ -31,13 +44,21 @@ class SocialUser(AbstractBaseUser):
         return unicode(self.name)
 
 
+def upload_to(instance, filename):
+    '''set file uploaded to'''
+    return 'static/uploads/{0}/{1}'.format(
+        instance.user.id,
+        filename
+    )
+
+
 class Photo(models.Model):
     '''This model represents a Photo record
     belonging to a user. The user can have
     many records.
     '''
-    image = models.CharField(max_length=512)
-    thumbnail = models.CharField(max_length=255, default='', blank=True)
+    image = models.ImageField(upload_to=upload_to)
+    thumbnail = models.ImageField(upload_to=upload_to, null=True)
     title = models.CharField(max_length=255, default='', blank=True)
     user = models.ForeignKey('SocialUser')
     created_at = models.DateTimeField(auto_now=True)
@@ -61,8 +82,8 @@ class Photo(models.Model):
         return [
             {
                 'title': photo.title,
-                'thumbnailSrc': photo.thumbnail,
-                'src': photo.image,
+                'thumbnail': photo.thumbnail.url,
+                'image': photo.image.url,
                 'edited_at': photo.edited_at.isoformat(),
                 'id': photo.id,
             } for photo in user_photos
@@ -73,14 +94,15 @@ class Photo(models.Model):
         '''Generates thumbnail images from an uploaded image.
         '''
         for photo in photos:
-            filename, ext = os.path.splitext(photo.image)
-            im = Image.open(os.path.join(settings.BASE_DIR, photo.image))
-            im.thumbnail(THUMBNAIL_SIZE)
-            thumbnail_src = "{0}.thumbnail{1}".format(
-                os.path.join(settings.BASE_DIR, filename), ext
-            )
-            photo.thumbnail = os.path.relpath(thumbnail_src, settings.BASE_DIR)
-            im.save(thumbnail_src)
+            filename, ext = os.path.splitext(photo.image.url)
+            if not photo.thumbnail:
+                im = Image.open(photo.image)
+                im.thumbnail(THUMBNAIL_SIZE)
+                thumbnail_path = photo.image.path[:-3] + 'thumbnail' + ext
+                im.save(thumbnail_path)
+                photo.thumbnail = os.path.relpath(
+                    thumbnail_path, settings.BASE_DIR)
+                photo.save()
 
     def update(self, form_data):
         '''Updates a photo record'''
@@ -101,8 +123,8 @@ class Share(models.Model):
     def this(cls, owner, image_src):
         '''Share a photo resource.'''
         share = cls()
-        if share.objects.filter(src=image_src).count():
-            return share.objects.get(src=image_src)
+        if cls.objects.filter(src=image_src).count():
+            return cls.objects.get(src=image_src)
         generate = cls.random_word()
         share.src = image_src
         share.uri = generate.next()
@@ -131,3 +153,28 @@ class Share(models.Model):
                     '0123456789')
             )
         yield word
+
+
+@receiver(post_delete, sender=Photo)
+def delete_from_file_system(sender, instance, **kwargs):
+    '''delete from file system'''
+    image_path = instance.image.path
+
+    # split the image path into path and extension
+    filepath, ext = os.path.splitext(image_path)
+    # create possible file paths
+    possible_filepaths = [image_path, instance.thumbnail.path]
+    possible_filepaths.extend(
+        map(lambda effect: '{0}.{1}{2}'.format(filepath, effect, ext),
+            settings.PHOTO_FX_BASIC)
+    )
+    possible_filepaths.extend(
+        map(lambda effect: '{0}.{1}{2}'.format(filepath, effect, ext),
+            settings.PHOTO_FX_ADVANCED)
+    )
+    # delete files from directory
+    for path in possible_filepaths:
+        if os.path.exists(path):
+            print path
+            # delete file
+            os.remove(path)
