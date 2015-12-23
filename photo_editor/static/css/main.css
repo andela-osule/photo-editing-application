@@ -118,7 +118,6 @@ body {
 
 .baseline {
     top: 10px;
-    position: absolute;
 }
 
 .zero-padding {
@@ -154,14 +153,21 @@ body {
 |-------------------------------------------------------
 */
 .img-rack-wrapper {
-	padding: 0px 15px 40px;
+	padding: 0px 0px 40px;
 }
 
 .img-rack {
-    min-height: 480px; 
+    min-height: 450px;
+    height: 450px;
+    overflow-y:auto; 
+    overflow-x:hidden;
+    overflow-y: scroll;
 }
 .img-rack input {
     width: 120px;
+}
+.img-item {
+    padding-left: 10px;
 }
 /*
 |-------------------------------------------------------
@@ -186,6 +192,9 @@ body {
     background: #FFFFFF;
     transition: all linear 0.3s;
 }
+.btn-tool:last-child{
+    margin-right: 0;
+}
 
 .btn-tool:active, .btn-tool:hover {
     box-shadow: 0 0 1px 1px #D3D3D3;
@@ -208,7 +217,7 @@ body {
 }
 
 .img-editing-pane {
-    padding: 20px 80px 50px 80px;	
+    padding: 20px 80px 20px 80px;	
 }
 
 .img-editing-canvas {
@@ -222,17 +231,11 @@ body {
 }
 
 .img-editing-canvas img {
-    width: calc(100%-20em);
-    height: 92%;
-    margin-top: 1.5%;
+    height: 100%;
 }
 
 .img-fx {
 	padding-top: 20px;
-}
-
-.img-fx > div {
-	min-height: 80px;
 }
 
 .img-circle {
@@ -264,8 +267,18 @@ body {
     width: 30px;
     display: inline;
 }
+
+h1 > a, h1 > a:hover, h1 > a:focus, h1 > a:active {
+    text-decoration: none;
+    color: #333;
+}
+
 .slick-slider {
     margin-bottom: 0px;
+}
+
+.overflow-hide {
+    overflow: hidden;
 }
 /*
 |-------------------------------------------------------
@@ -298,12 +311,28 @@ body {
 .selected .img-title, .selected .text-tiny {
     color: #FFFFFF;
 }
+
+.effect {
+    padding: 8px;
+    border: 1px solid #FFF;
+}
+
+.effect:hover {
+    background: #2692BE;
+    border-color: #337AB7;
+}
+
+.effect:focus, .effect:active {
+    background: #2692BE;
+    outline: none;
+}
 /*
 |-------------------------------------------------------
 | Download
 |-------------------------------------------------------
 */
 .nudge.down {
-    margin-top: 200px;
+    min-height: 80px;
+    padding-top: 10px;
 }
 
