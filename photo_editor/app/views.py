@@ -221,7 +221,6 @@ class DownloadView(View):
                 settings.BASE_DIR, photo.src[1:]
             )
             file_name = os.path.basename(file_path)
-            print file_path
             mtype = mimetypes.guess_type(file_name)
             fsock = open(file_path, "rb")
             photo.downloads += 1
