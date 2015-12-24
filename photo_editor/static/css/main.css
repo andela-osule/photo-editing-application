@@ -9,11 +9,19 @@ body {
 | Login Template
 |-------------------------------------------------------
 */
+.center {
+    float: none;
+    margin: 0 auto;
+}
+
+.vertical-align {
+    display: table-cell;
+    vertical-align: middle;
+    padding-top: 60px;
+}
+
 .login-wrapper {
-    top: 50%;
     padding: 35px;
-    height: 380px;
-    position: absolute;
     background-color: #FFFFFF;
     box-shadow: 1px 1px 0 #E8E8E8;
 }
@@ -31,14 +39,16 @@ body {
 
 .login-btn {
     padding: 2px;
-    margin-top: 50px;
     background-color: #4550B3;
+    min-height: 50px;
+}
+.login-btn div:last-child {
+    padding-top: 8px;
 }
 
 .fa-facebook{
     padding: 2px;
     font-size: 1.6em;
-    margin-left: 15px;
 }
 
 .fa-facebook:after{
@@ -52,15 +62,8 @@ body {
 }
 
 .login-text {
-    margin: 0 20px;
-    width: 200px;
     vertical-align: middle;
     font-weight: 500;
-}
-
-.posit-relative{
-    position: relative;
-    min-height: 300px;
 }
 
 .feature-story {
@@ -153,12 +156,11 @@ body {
 |-------------------------------------------------------
 */
 .img-rack-wrapper {
-	padding: 0px 0px 40px;
+	padding: 0px 0px 20px;
 }
 
 .img-rack {
     min-height: 450px;
-    height: 450px;
     overflow-y:auto; 
     overflow-x:hidden;
     overflow-y: scroll;
@@ -168,6 +170,7 @@ body {
 }
 .img-item {
     padding-left: 10px;
+    padding-top: 10px;
 }
 /*
 |-------------------------------------------------------
@@ -217,7 +220,9 @@ body {
 }
 
 .img-editing-pane {
-    padding: 20px 80px 20px 80px;	
+    padding: 20px 80px 20px 80px;
+    position: absolute;
+    left: 25%;	
 }
 
 .img-editing-canvas {
@@ -225,7 +230,7 @@ body {
 }
 
 .img-editing-canvas > div {
-	min-height: 300px;
+	min-height: 420px;
 	border: 1px solid #D8D8D8;
 	box-shadow: 0 0 1px 1px #D8D8D8;
 }
@@ -243,8 +248,8 @@ body {
 }
 
 .img-bottom-padding {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .img-item:hover {
@@ -279,6 +284,8 @@ h1 > a, h1 > a:hover, h1 > a:focus, h1 > a:active {
 
 .overflow-hide {
     overflow: hidden;
+    padding-top: 35px;
+    padding-bottom: 35px;
 }
 /*
 |-------------------------------------------------------
@@ -320,11 +327,13 @@ h1 > a, h1 > a:hover, h1 > a:focus, h1 > a:active {
 .effect:hover {
     background: #2692BE;
     border-color: #337AB7;
+    color: #FFFFFF;
 }
 
 .effect:focus, .effect:active {
     background: #2692BE;
     outline: none;
+    color: #FFFFFF;
 }
 /*
 |-------------------------------------------------------
@@ -336,3 +345,29 @@ h1 > a, h1 > a:hover, h1 > a:focus, h1 > a:active {
     padding-top: 10px;
 }
 
+.nudge.down-50 {
+    padding-top: 50px;
+}
+
+.loading {
+    background-repeat: no-repeat;
+    background-image: url('/static/images/loading.gif');
+    background-size: cover;
+    width: 35px;
+    height: 35px;
+    display: inline-block;
+}
+
+.position-loading {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.position-wrapper {
+    height: 90%;
+    position: absolute;
+}
+
+.default-text {
+    padding-top: 35px;
+}
