@@ -6,25 +6,31 @@
         <![endif]-->
         <div class="container">
             <div class="row">
-                <div class="col-sm-push-4 col-sm-4">
-                    <div class="posit-relative">
+                <div class="col-sm-4 center">
+                    <div class="vertical-align">
 	                    <div class="login-wrapper"> <!-- Login wrapper starts here -->            
 		                    <h1 class="appname text-center"><img class="img img-responsive img-logo" src="{% static 'images/logo.png' %}"/> Photo Editr</h1>
 		                    <div class="tagline text-center">A 21st century photo editor for the inter-web {{sessionitems}}</div>
 		                    <div class="feature-story">
-		                      <ul>
-		                          <li><span class="fa fa-upload"></span>Upload images
-		                          <li><span class="fa fa-pencil-square-o"></span>Make nifty image effects
-		                          <li><span class="fa fa-paper-plane-o"></span>Share with your friends on Facebook
-		                      </ul>
+                                <ul>
+                                    <li><span class="fa fa-upload"></span>Upload images
+                                    <li><span class="fa fa-pencil-square-o"></span>Make nifty image effects
+                                    <li><span class="fa fa-paper-plane-o"></span>Share with your friends on Facebook
+                                </ul>
 		                    </div>
 		                    
-		                    <div class="login-btn" data-scope="{{ allow_perms }}">
-		                       <span class="fa fa-facebook"></span>
-		                        <span class="login-text">
-		                            Login with Facebook to get started.
-		                        </span>
-		                    </div>
+                            <div class="row nudge down-50">
+    		                    <div class="login-btn" data-scope="{{ allow_perms }}">
+                                    <div class="col-xs-2">
+                                        <i class="fa fa-facebook"></i>
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <span class="login-text">
+                                            Login with Facebook to get started.
+                                        </span>
+                                    </div>
+    		                    </div>
+                            </div>
 		                </div> <!-- Login wrapper ends here -->
 		            </div>
                 </div>
@@ -38,7 +44,7 @@
         <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
         <script src="{% static 'js/plugins.js' %}"></script>
         <script>
-	            window.fbAsyncInit = function() {
+	            window.fbAsyncInit = function () {
 	                FB.init({
 	                    appId      : '{{ app_id }}',
 	                    status     : true,
@@ -47,7 +53,7 @@
                         version    : 'v2.4'
 	                });
 	                
-	                FB.Event.subscribe('auth.login', function(response) {
+	                FB.Event.subscribe('auth.login', function (response) {
 	                    window.location = window.location;
 	                });
 	            }

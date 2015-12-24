@@ -8,7 +8,7 @@
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div class="app container">
+        <div class="app container-fluid">
             <div class="row bg-white pane-top"> <!-- top pane -->
                 <div class="col-sm-4">
                     <h1><img class="img img-responsive img-logo" src="{% static 'images/logo.png' %}"/>
@@ -24,11 +24,11 @@
             </div> <!-- top pane -->
 
             <div class="row" ng-controller="PhotosController">
-                <div class="col-sm-3 bg-white img-rack-wrapper"> <!-- image selection pane -->
+                <div class="col-sm-3 bg-white img-rack-wrapper position-wrapper"> <!-- image selection pane -->
                     <div class="img-rack text-center"><!-- image rack -->
                         <div class="row img-item img-bottom-padding" ng-repeat="photo in photos" data-id="[[photo.id]]" data-filesrc="[[ photo.image ]]" select-photo ng-model="effectIsLoaded">
                     </div>
-                    <div ng-hide="photos.length">No images have been uploaded yet</div>
+                    <div ng-hide="photos.length" class="default-text">No images have been uploaded yet</div>
                         <!--Partials::selection.html-->
                     </div><!-- image rack -->
                     <div class="text-center overflow-hide" ng-controller="PhotoController">
@@ -47,7 +47,7 @@
                          </div>
                          <div class="col-xs-8 col-sm-8 zero-padding">
                             <div ng-if="showAlert" class="alert alert-[[ message.tags ]]" ng-repeat="message in messages">
-                                <a ng-click="DestroyAlert()" class="close red" data-dismiss="alert">✗</a>
+                                <a ng-click="destroyAlert()" class="close red" data-dismiss="alert">✗</a>
                                 [[ message.text ]]
                             </div>
                             {% block messages %}
@@ -84,7 +84,11 @@
                             </div>
                         </div>
                     </div><!-- image effects and filters selection pane -->
-
+                    <div class="row position-loading">
+                        <div class="col-sm-12 text-right">
+                            <span id="loading"></span>
+                        </div>
+                    </div>
                 </div> <!-- image effects and filters selection pane -->
             </div>
         </div>
