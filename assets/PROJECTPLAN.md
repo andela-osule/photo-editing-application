@@ -18,9 +18,8 @@ The following are the application requirements:
 
 In lieu of the above listed requirements, the following technologies shall be exercised for a timely delivery:
 - Django Web Framework
-- Celery Task Runner
 - JQuery
-- Cloudinary SDK
+- AngularJS
 - Facebook SDK
 - Twitter Bootstrap
 
@@ -37,10 +36,7 @@ This section makes a projection about the time duration for tasks focused on a *
 | Mockup replication                                       |      2 |
 | Test Facebook Authentication                             |      2 |
 | Facebook Authentication                                  |      2 |
-| Setup Cloudinary Integration                             |      1 |
-| Test Cloudinary Upload and status of `POST` requests     |      2 |
 | Implement upload feature                                 |      2 |
-| Implement Celery background runner JS                    |      3 |
 | Test routes for photo filters                            |      2 |
 | Implement photo filters                                  |      3 |
 | Test routes for photo effects                            |      2 |
