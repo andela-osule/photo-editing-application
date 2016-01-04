@@ -254,6 +254,7 @@ body {
 
 .img-item:hover {
     background-color: #2692BE;
+    cursor: pointer;
 }
 
 .img-item:hover .img-title, .img-item:hover .text-tiny {
@@ -262,6 +263,9 @@ body {
 
 .img-title {
     font-weight: 900;
+}
+.img-title:hover{
+    cursor: text;
 }
 
 .top-padding-10px {
