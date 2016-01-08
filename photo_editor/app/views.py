@@ -13,7 +13,8 @@ from django.http import JsonResponse, HttpResponse, HttpResponseNotFound
 
 
 class RootFilesView(View):
-    '''Renders requests for `sitemap.xml`, `robots.txt` and `humans.txt`'''
+    '''A view class that responds to requests for `sitemap.xml`,
+     `robots.txt` and `humans.txt`'''
 
     def get(self, request, *args, **kwargs):
         '''Returns response for `GET` request to the website root'''
@@ -25,7 +26,7 @@ class RootFilesView(View):
 
 
 class AuthView(View):
-    '''Handles User authentication'''
+    '''A view class that handles user authentication'''
 
     def get(self, request):
         '''Handles `GET` request to the login route'''
@@ -45,10 +46,10 @@ class AuthView(View):
 
 
 class DeAuthView(View):
-
-    '''De-authenticates user'''
+    '''A view class that de-authenticates a user'''
+    
     def get(self, request):
-        '''Handle the de-authentication of a user'''
+        '''Handles the de-authentication of a user'''
         request.session.flush()
         request.COOKIES = {
             k: v for k, v in request.COOKIES.iteritems()
@@ -58,14 +59,14 @@ class DeAuthView(View):
 
 
 class AppView(View):
+    '''A view class that generates the user dashboard'''
     MSGS = {
         'ERROR': 'Photo failed to upload at this time.',
         'SUCCESS': 'Photo successfully submitted for upload',
     }
 
-    '''Parley all requests that boister app functions'''
-
     def get(self, request):
+        '''Parley all requests that boister app functions'''
         context = {}
         if not request.user.is_authenticated():
             return redirect(reverse('app.auth.login'))
@@ -75,21 +76,23 @@ class AppView(View):
 
 
 class JSONPhotosView(View):
-    '''Returns photos belonging to authenticated user as JSON
+    '''A view class that photos belonging to authenticated user as JSON
     '''
     def get(self, request):
+        '''Returns photos belonging to authenticated user as JSON'''
         serialized_photos = {'photos': Photo.get_for_user(request.user)}
         return JsonResponse(serialized_photos, safe=False)
 
 
 class DestroyPhotoView(View):
-    '''Deletes photo from the database'''
+    '''A view class that deletes photo from the database'''
     MSGS = {
         'ERROR': 'Photo does not exist',
         'SUCCESS': 'Photo was deleted successfully',
     }
 
     def get(self, request, photo_id):
+        '''Handles the deletion of user photo'''
         mesgs = dict()
         try:
             photo = Photo.objects.get(id=photo_id, user=request.user)
@@ -103,7 +106,7 @@ class DestroyPhotoView(View):
 
 
 class UploadPhotoView(View):
-    '''Uploads photo to the database'''
+    '''A view class that uploads photo to the database'''
     MSGS = {
         'ERROR': 'Photo failed to upload at this time.',
         'SUCCESS': 'Photo successfully submitted for upload',
@@ -111,9 +114,11 @@ class UploadPhotoView(View):
 
     @csrf_exempt
     def dispatch(self, *args, **kwargs):
+        '''Exempt class methods from csrf verification'''
         return super(UploadPhotoView, self).dispatch(*args, **kwargs)
 
     def post(self, request):
+        '''Upload the user's photo '''
         mesgs = dict()
         photo_form = PhotoForm(
             request.POST, request.FILES
@@ -143,9 +148,11 @@ class UpdatePhotoTitleView(View):
 
     @csrf_exempt
     def dispatch(self, *args, **kwargs):
+        '''Exempts class methods from csrf verification'''
         return super(UpdatePhotoTitleView, self).dispatch(*args, **kwargs)
 
     def post(self, request, photo_id):
+        '''Updates photo title'''
         mesgs = dict()
         request.POST = loads(request.body)
         request.POST['user'] = request.user.id
@@ -162,8 +169,10 @@ class UpdatePhotoTitleView(View):
 
 
 class JSONFxListView(View):
-    '''Returns JSON of available effects'''
+    '''A view class that returns JSON of available effects'''
+
     def get(self, request):
+        '''Get available list of filters'''
         filters = settings.PHOTO_FX_BASIC + settings.PHOTO_FX_ADVANCED
         response_data = {
             'fxCollection': [
@@ -174,8 +183,10 @@ class JSONFxListView(View):
 
 
 class JSONFxApplyView(View):
-    '''Applies an effect and returns a base 64 data uri in JSON response'''
+    '''A view class that applies an effect to a photo'''
+
     def get(self, request, photo_id, fx):
+        '''Applies a photo effect'''
         photo = Photo.objects.get(id=photo_id)
         effected_im = Fx(photo, fx).apply()
         effected_im_src = Storage.save(request, effected_im)
@@ -188,15 +199,17 @@ class ShareView(View):
 
     @csrf_exempt
     def dispatch(self, *args, **kwargs):
+        '''Exempts class methods from csrf verification'''
         return super(ShareView, self).dispatch(*args, **kwargs)
 
     def get(self, request):
+        '''Renders photo sharing page'''
         uri = request.GET.get('uri')
         photo = Share.get_photo(uri)
         return render(request, 'app/photo.html', {'photo': photo})
 
     def post(self, request):
-        # import pdb; pdb.set_trace()
+        '''Generates share url'''
         body = loads(request.body)
         share = Share.this(request.user, body.get('src'))
         response_data = {
@@ -208,12 +221,17 @@ class ShareView(View):
 
 
 class PrivacyView(View):
+    '''A view class for the privacy policy page'''
+
     def get(self, request):
+        '''Renders privacy policy'''
         return render(request, 'app/privacy.html')
 
 
 class DownloadView(View):
+    '''A view class for photo download'''
     def get(self, request):
+        '''Returns the file for download'''
         uri = request.GET.get('file')
         photo = get_object_or_404(Share, uri=uri)
         try:
